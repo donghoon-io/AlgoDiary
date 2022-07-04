@@ -2,7 +2,7 @@
 	import Switch from '$lib/misc/toggle.svelte';
 	
 	const today = new Date;
-	let checked = false;
+	let checked = true;
 </script>
 
 <svelte:head>
@@ -12,7 +12,7 @@
 <section>
 	<div class="flex h-screen divide-x divide-slate-200">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
-			<div class="h-1/5 text-center flex justify-center items-center">
+			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
 					<p class="text-md">인공지능과 함께 나에대해 알아보기</p>
 					<p class="text-3xl">Algorithm diary</p>
@@ -46,7 +46,7 @@
 		</div>
 
 		<div class="w-1/3 divide-y divide-slate-200">
-			<div class="h-1/5 text-center flex justify-center items-center">
+			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
 					<p class="text-3xl pb-2">선배와 산책을 함</p>
 					<p class="text-sm">by 신동훈 - 10월 21일</p>
@@ -77,7 +77,7 @@
 		</div>
 
 		<div class="w-1/3 h-full divide-y divide-slate-200">
-			<div class="h-1/5 text-center flex justify-center items-center">
+			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
 					<p class="text-md pb-2">인공지능과 함께하기</p>
 					<img src="./robot.png" class="w-4/6 m-auto">
