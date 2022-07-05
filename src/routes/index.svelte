@@ -1,12 +1,21 @@
-<script context="module">
+<script>
 	import Switch from '$lib/misc/toggle.svelte';
+	import { onMount } from "svelte";
 	
-	const today = new Date;
 	let checked = true;
+
+	let divEl;
+
+	onMount(async () => {
+    	var myCalendar = jsCalendar.new(divEl);	
+	});
 </script>
 
 <svelte:head>
 	<title>Home</title>
+	
+	<script src="./calendar/calendar.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.css" integrity="sha384-44GnAqZy9yUojzFPjdcUpP822DGm1ebORKY8pe6TkHuqJ038FANyfBYBpRvw8O9w" crossorigin="anonymous">
 </svelte:head>
 
 <section>
@@ -18,8 +27,8 @@
 					<p class="text-3xl">Algorithm diary</p>
 				</div>
 			</div>
-			<div class="h-2/5 p-4">
-				calendar
+			<div class="px-4 py-2 text-center">
+				<div bind:this={divEl} class="inline-block"></div>
 			</div>
 			<div class="h-2/5 bg-slate-50 p-4">
 				<div class="flex">
