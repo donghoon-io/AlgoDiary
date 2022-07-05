@@ -4,10 +4,10 @@
 	
 	let checked = true;
 
-	let divEl;
+	let cal;
 
 	onMount(async () => {
-    	var myCalendar = jsCalendar.new(divEl);	
+    	var myCalendar = jsCalendar.new(cal);	
 	});
 </script>
 
@@ -15,6 +15,7 @@
 	<title>Home</title>
 	
 	<script src="./calendar/calendar.js"></script>
+	<script type="text/javascript" src="./calendar/calendar.ko.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.css" integrity="sha384-44GnAqZy9yUojzFPjdcUpP822DGm1ebORKY8pe6TkHuqJ038FANyfBYBpRvw8O9w" crossorigin="anonymous">
 </svelte:head>
 
@@ -23,12 +24,12 @@
 		<div class="w-1/3 h-full divide-y divide-slate-200">
 			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
-					<p class="text-md">인공지능과 함께 나에대해 알아보기</p>
-					<p class="text-3xl">Algorithm diary</p>
+					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
+					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
 				</div>
 			</div>
 			<div class="px-4 py-2 text-center">
-				<div bind:this={divEl} class="inline-block"></div>
+				<div bind:this={cal} class="inline-block" data-language="ko"></div>
 			</div>
 			<div class="h-2/5 bg-slate-50 p-4">
 				<div class="flex">
@@ -88,13 +89,13 @@
 		<div class="w-1/3 h-full divide-y divide-slate-200">
 			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
-					<p class="text-md pb-2">인공지능과 함께하기</p>
-					<img src="./robot.png" class="w-4/6 m-auto">
+					<p class="text-lg font-medium pb-2">인공지능과 함께하기</p>
+					<img src="./robot.png" class="w-2/3 m-auto">
 				</div>
 			</div>
 			<div class="h-4/5 p-4">
 				<div>
-					<p class="text-lg text-center pb-2">다음 문장을 부탁해</p>
+					<p class="text-lg text-left pb-2">다음 문장을 부탁해</p>
 					<div class="border border-gray-400 rounded p-3 shadow">
 						<p class="text-sm">
 							시간이 없다는것은 항상 아쉬운 일이다.
@@ -110,19 +111,33 @@
 					</div>
 				</div>
 				<div class="pt-6 text-center">
-					<p class="text-lg text-center pb-2">인공지능에게 부탁해</p>
-					<div class="border border-gray-400 bg-gray-100 rounded p-3 shadow">
-						<p class="text-sm text-left">
-							내가 어떤 글을 써줬으면 좋겠니?
-						</p>
+					<p class="text-lg text-left pb-2">인공지능에게 부탁해</p>
+					<div class="border border-gray-400 bg-gray-100 rounded p-2 shadow">
+						<textarea
+						class="
+							form-control
+							w-full
+							text-base
+							font-normal
+							text-gray-700
+							bg-clip-padding
+							bg-transparent
+							transition
+							ease-in-out
+							m-0
+						"
+						id="exampleFormControlTextarea1"
+						rows="3"
+						placeholder="여기에 메시지를 적어주세요"
+						></textarea>
 					</div>
 					<button class="bg-white w-1/2 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center justify-center">
 						<p class="text-sm">요청하기</p>
 					</button>
 				</div>
 				<div class="pt-6 text-center">
-					<p class="text-lg text-center pb-2">글 전체의 감정 알아보기</p>
-					<button class="bg-white w-full mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center justify-center mb-2">
+					<p class="text-lg text-left pb-2">글 전체의 감정 알아보기</p>
+					<button class="bg-white w-full hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center justify-center mb-2">
 						<p class="text-sm">확인하기</p>
 					</button>
 				</div>
