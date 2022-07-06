@@ -95,29 +95,20 @@
 			</div>
 			<div class="h-4/5 p-4">
 				<div>
-					<p class="text-lg text-left pb-2">다음 문장을 부탁해</p>
-					<div class="border border-gray-400 rounded p-3 shadow">
-						<p class="text-sm">
-							시간이 없다는것은 항상 아쉬운 일이다.
-							<br><br>
-							나에게 시간은 항상 부족하기만 한 것이였다. 
-							<br><br>
-							걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.
-							<br><br>
-							시간이 항상 부족하지만, 그 안에서 어떻게든  방법을 찾아야 하는것이 직장인의 삶인가보다.
-							<br><br>
-							짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.
-						</p>
-					</div>
+					<p class="text-lg text-left pb-3">다음 문장을 부탁해</p>
+					<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
+					<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
+					<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
+					<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
+					<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
 				</div>
-				<div class="pt-6 text-center">
-					<p class="text-lg text-left pb-2">인공지능에게 부탁해</p>
+				<div class="pt-7 text-center">
+					<p class="text-lg text-left pb-3">인공지능에게 부탁해</p>
 					<div class="border border-gray-400 bg-gray-100 rounded p-2 shadow">
 						<textarea
 						class="
 							form-control
 							w-full
-							text-base
 							font-normal
 							text-gray-700
 							bg-clip-padding
@@ -125,6 +116,7 @@
 							transition
 							ease-in-out
 							m-0
+							text-sm
 						"
 						id="exampleFormControlTextarea1"
 						rows="3"
@@ -135,13 +127,50 @@
 						<p class="text-sm">요청하기</p>
 					</button>
 				</div>
-				<div class="pt-6 text-center">
-					<p class="text-lg text-left pb-2">글 전체의 감정 알아보기</p>
-					<button class="bg-white w-full hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center justify-center mb-2">
-						<p class="text-sm">확인하기</p>
-					</button>
+				<div class="pt-7 text-center">
+					<p class="text-lg text-left pb-3">내가 쓴 글의 감정은?</p>
+					<div class="mb-3 text-left">
+						<a class="tag-emotion"># 슬픔</a>
+						<a class="tag-emotion"># 분노</a>
+						<a class="tag-emotion"># 사랑</a>
+						<a class="tag-emotion"># 혼란</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+<style>
+	.tag {
+		background-color: #e7e7e7;
+		border-radius: 15px;
+		font-size: 0.8rem;
+		font-weight: 500;
+    	line-height: 1.25rem;
+		padding-top: 0.125rem;
+		padding-bottom: 0.25rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		display: inline-block;	
+		margin-bottom: 0.25rem;
+	}
+	.tag:last-of-type {
+		margin-bottom: 0 !important;
+	}
+	.tag-emotion {
+		background-color: #e7e7e7;
+		border-radius: 15px;
+		font-size: 0.8rem;
+		font-weight: 500;
+    	line-height: 1.25rem;
+		padding-top: 0.125rem;
+		padding-bottom: 0.25rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+		margin-bottom: 0.25rem;
+	}
+	.tag-emotion:last-of-type {
+		margin-bottom: 0 !important;
+	}
+  </style>
