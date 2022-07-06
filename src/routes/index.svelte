@@ -34,7 +34,7 @@
 			<div class="h-2/5 p-4">
 				<div class="flex">
 					<div>
-						<p class="text-xl pb-3">10월 21일</p>
+						<p class="text-xl pb-3">7월 6일</p>
 					</div>
 					<div class="ml-auto">
 						<button type="button" class="hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2 text-center inline-flex items-center">
@@ -59,7 +59,7 @@
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
 						<p class="text-3xl pb-2">선배와 산책을 함</p>
-						<p class="text-sm">by 신동훈 - 10월 21일</p>
+						<p class="text-sm">by 신동훈 - 7월 6일</p>
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
