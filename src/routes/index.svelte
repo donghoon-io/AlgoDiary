@@ -20,7 +20,7 @@
 </svelte:head>
 
 <section>
-	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-100">
+	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-50">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
 			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
@@ -173,5 +173,8 @@
 	}
 	.tag-emotion:last-of-type {
 		margin-bottom: 0 !important;
+	}
+	:global(.jsCalendar table) {
+		background-color: transparent !important;
 	}
   </style>
