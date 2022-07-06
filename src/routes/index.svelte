@@ -54,7 +54,7 @@
 				<p class="text-sm pt-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
 			</div>
 		</div>
-		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-4 my-4 bg-white">
+		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-6 my-6 bg-white">
 			<div class="w-1/2 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
