@@ -20,7 +20,7 @@
 </svelte:head>
 
 <section>
-	<div class="flex h-screen divide-x divide-slate-200">
+	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-100">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
 			<div class="h-1/6 text-center flex justify-center items-center">
 				<div>
@@ -31,7 +31,7 @@
 			<div class="px-4 py-2 text-center">
 				<div bind:this={cal} class="inline-block" data-language="ko"></div>
 			</div>
-			<div class="h-2/5 bg-slate-50 p-4">
+			<div class="h-2/5 p-4">
 				<div class="flex">
 					<div>
 						<p class="text-xl pb-3">10월 21일</p>
@@ -51,89 +51,90 @@
 						  </button>
 					</div>
 				</div>
-				<p class="text-sm pt-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결재하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
+				<p class="text-sm pt-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
 			</div>
 		</div>
-
-		<div class="w-1/3 divide-y divide-slate-200">
-			<div class="h-1/6 text-center flex justify-center items-center">
-				<div>
-					<p class="text-3xl pb-2">선배와 산책을 함</p>
-					<p class="text-sm">by 신동훈 - 10월 21일</p>
+		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-4 my-4 bg-white">
+			<div class="w-1/2 divide-y divide-slate-200">
+				<div class="h-1/6 text-center flex justify-center items-center">
+					<div>
+						<p class="text-3xl pb-2">선배와 산책을 함</p>
+						<p class="text-sm">by 신동훈 - 10월 21일</p>
+					</div>
+				</div>
+				<div class="h-3/5 p-4">
+					<p class="text-sm">
+						내가 좋아하는 선배와 점심을 먹었다. 선배는 날이 좋다며 갑자기 나를 차에 태우더니 회사 근처 하늘공원으로 향했다. 그리고 차에 대린 눈 앞에 이렇게나 아름다운 길이 펼쳐졌다. 
+						<br><br>
+						바로 근처 노을공원에서 결혼사진을 찍을 정도로 이곳을 좋아하고 많이 왔었다고 생각했는데 여기에 이렇게 아름다운 곳이 있는 줄 몰랐다. 끝없이 펼쳐진 나무 길을 무작정 걷고 또 걸었다. 만약 시간이 더 있었다면 끝없이 걷고 싶은 길이었다..
+						<br><br>
+						시간이 항상 부족하지만, 그 안에서 어떻게든  방법을 찾아야 하는것이 직장인의 삶인가보다.
+					</p>
+				</div>
+				<div class="h-1/5 p-4 text-center flex justify-center items-center">
+					<div>
+						<div class="flex justify-center items-center space-x-3 pb-4">
+							<p class="text-sm">이 글을 연구진과 공유합니다</p>
+							<Switch bind:checked={checked}></Switch>
+						</div>
+						<div class="flex justify-center items-center">
+							<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+								<p class="text-sm">저장하기</p>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="h-3/5 p-4">
-				<p class="text-sm">
-					내가 좋아하는 선배와 점심을 먹었다. 선배는 날이 좋다며 갑자기 나를 차에 태우더니 회사 근처 하늘공원으로 향했다. 그리고 차에 대린 눈 앞에 이렇게나 아름다운 길이 펼쳐졌다. 
-					<br><br>
-					바로 근처 노을공원에서 결혼사진을 찍을 정도로 이곳을 좋아하고 많이 왔었다고 생각했는데 여기에 이렇게 아름다운 곳이 있는 줄 몰랐다. 끝없이 펼쳐진 나무 길을 무작정 걷고 또 걸었다. 만약 시간이 더 있었다면 끝없이 걷고 싶은 길이었다..
-					<br><br>
-					시간이 항상 부족하지만, 그 안에서 어떻게든  방법을 찾아야 하는것이 직장인의 삶인가보다.
-				</p>
-			</div>
-			<div class="h-1/5 p-4 text-center flex justify-center items-center">
-				<div>
-					<div class="flex justify-center items-center space-x-3 pb-4">
-						<p class="text-sm">이 글을 연구진과 공유합니다</p>
-						<Switch bind:checked={checked}></Switch>
+	
+			<div class="w-1/2 h-full divide-y divide-slate-200">
+				<div class="h-1/6 text-center flex justify-center items-center">
+					<div>
+						<p class="text-lg font-medium pb-2">인공지능과 함께하기</p>
+						<img src="./robot.png" class="w-2/3 m-auto">
 					</div>
-					<div class="flex justify-center items-center">
-						<button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-							저장하기
+				</div>
+				<div class="h-4/5 p-4">
+					<div>
+						<p class="text-lg text-left pb-3">다음 문장을 부탁해</p>
+						<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
+						<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
+						<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
+						<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
+						<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
+					</div>
+					<div class="pt-7 text-center">
+						<p class="text-lg text-left pb-3">인공지능에게 부탁해</p>
+						<div class="border border-gray-400 rounded p-2 shadow">
+							<textarea
+							class="
+								form-control
+								w-full
+								font-normal
+								text-gray-700
+								bg-clip-padding
+								bg-transparent
+								transition
+								ease-in-out
+								m-0
+								text-sm
+							"
+							id="exampleFormControlTextarea1"
+							rows="3"
+							placeholder="여기에 메시지를 적어주세요"
+							></textarea>
+						</div>
+						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+							<p class="text-sm">요청하기</p>
 						</button>
 					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="w-1/3 h-full divide-y divide-slate-200">
-			<div class="h-1/6 text-center flex justify-center items-center">
-				<div>
-					<p class="text-lg font-medium pb-2">인공지능과 함께하기</p>
-					<img src="./robot.png" class="w-2/3 m-auto">
-				</div>
-			</div>
-			<div class="h-4/5 p-4">
-				<div>
-					<p class="text-lg text-left pb-3">다음 문장을 부탁해</p>
-					<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
-					<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
-					<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
-					<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
-					<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
-				</div>
-				<div class="pt-7 text-center">
-					<p class="text-lg text-left pb-3">인공지능에게 부탁해</p>
-					<div class="border border-gray-400 bg-gray-100 rounded p-2 shadow">
-						<textarea
-						class="
-							form-control
-							w-full
-							font-normal
-							text-gray-700
-							bg-clip-padding
-							bg-transparent
-							transition
-							ease-in-out
-							m-0
-							text-sm
-						"
-						id="exampleFormControlTextarea1"
-						rows="3"
-						placeholder="여기에 메시지를 적어주세요"
-						></textarea>
-					</div>
-					<button class="bg-white w-1/2 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-						<p class="text-sm">요청하기</p>
-					</button>
-				</div>
-				<div class="pt-7 text-center">
-					<p class="text-lg text-left pb-3">내가 쓴 글의 감정은?</p>
-					<div class="mb-3 text-left">
-						<a class="tag-emotion"># 슬픔</a>
-						<a class="tag-emotion"># 분노</a>
-						<a class="tag-emotion"># 사랑</a>
-						<a class="tag-emotion"># 혼란</a>
+					<div class="pt-7 text-center">
+						<p class="text-lg text-left pb-3">내가 쓴 글의 감정은?</p>
+						<div class="mb-3 text-left">
+							<a class="tag-emotion"># 슬픔</a>
+							<a class="tag-emotion"># 분노</a>
+							<a class="tag-emotion"># 사랑</a>
+							<a class="tag-emotion"># 혼란</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -143,7 +144,7 @@
 
 <style>
 	.tag {
-		background-color: #e7e7e7;
+		border: 1px solid #999;
 		border-radius: 15px;
 		font-size: 0.8rem;
 		font-weight: 500;
@@ -159,7 +160,7 @@
 		margin-bottom: 0 !important;
 	}
 	.tag-emotion {
-		background-color: #e7e7e7;
+		border: 1px solid #999;
 		border-radius: 15px;
 		font-size: 0.8rem;
 		font-weight: 500;
