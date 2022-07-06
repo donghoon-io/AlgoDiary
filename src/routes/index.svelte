@@ -177,4 +177,8 @@
 	:global(.jsCalendar table) {
 		background-color: transparent !important;
 	}
+	:global(.jsCalendar-current) {
+		color: #333 !important;
+		background-color: rgb(218, 218, 218) !important;
+	}
   </style>
