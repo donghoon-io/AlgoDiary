@@ -1,10 +1,14 @@
 <script>
 	import Switch from '$lib/misc/toggle.svelte';
+    import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
 	
 	let checked = true;
 
 	let cal;
+
+	const startString = "전형적이지만,\n\n높은 완성도";
+	const endString = "완성도가 낮더라도<br/>다양한 문장";
 
 	onMount(async () => {
     	var myCalendar = jsCalendar.new(cal);	
@@ -22,16 +26,19 @@
 <section>
 	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-50">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
-			<div class="h-1/6 text-center flex justify-center items-center">
+			<div class="h-1/5 text-center flex justify-center items-center">
 				<div>
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
 					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
+					<button class="mt-3 hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+						<p class="text-sm">로그아웃</p>
+					</button>
 				</div>
 			</div>
 			<div class="px-4 py-2 text-center">
 				<div bind:this={cal} class="inline-block" data-language="ko"></div>
 			</div>
-			<div class="h-2/5 p-4">
+			<div class="p-4">
 				<div class="flex">
 					<div>
 						<p class="text-xl pb-3">7월 6일</p>
@@ -54,87 +61,97 @@
 				<p class="text-sm pt-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
 			</div>
 		</div>
-		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-6 my-6 bg-white">
+		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-6 my-3 bg-white">
 			<div class="w-1/2 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
-						<p class="text-3xl pb-2">선배와 산책을 함</p>
+						<p class="text-2xl pb-2">선배와 산책을 함</p>
 						<p class="text-sm">by 신동훈 - 7월 6일</p>
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
-					<p class="text-sm">
-						내가 좋아하는 선배와 점심을 먹었다. 선배는 날이 좋다며 갑자기 나를 차에 태우더니 회사 근처 하늘공원으로 향했다. 그리고 차에 대린 눈 앞에 이렇게나 아름다운 길이 펼쳐졌다. 
-						<br><br>
-						바로 근처 노을공원에서 결혼사진을 찍을 정도로 이곳을 좋아하고 많이 왔었다고 생각했는데 여기에 이렇게 아름다운 곳이 있는 줄 몰랐다. 끝없이 펼쳐진 나무 길을 무작정 걷고 또 걸었다. 만약 시간이 더 있었다면 끝없이 걷고 싶은 길이었다..
-						<br><br>
-						시간이 항상 부족하지만, 그 안에서 어떻게든  방법을 찾아야 하는것이 직장인의 삶인가보다.
-					</p>
+					<textarea
+						class="
+							form-control
+							w-full
+							h-full
+							font-normal
+							text-gray-700
+							bg-clip-padding
+							bg-transparent
+							transition
+							ease-in-out
+							m-0
+							text-sm
+						"
+						id="diaryTextArea"
+						placeholder="여기에 일기를 적어주세요"
+						></textarea>
 				</div>
-				<div class="h-1/5 p-4 text-center flex justify-center items-center">
+				<div class="h-1/5 px-4 pt-4 text-center flex justify-center items-center">
 					<div>
-						<div class="flex justify-center items-center space-x-3 pb-4">
+						<div class="flex justify-center items-center space-x-3 pb-3">
 							<p class="text-sm">이 글을 연구진과 공유합니다</p>
 							<Switch bind:checked={checked}></Switch>
 						</div>
 						<div class="flex justify-center items-center">
-							<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-								<p class="text-sm">저장하기</p>
+							<button class="bg-white mt-1 hover:bg-gray-100 text-gray-800 font-medium py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+								<p class="text-sm">저장하고 공감받기</p>
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
-	
+			
 			<div class="w-1/2 h-full divide-y divide-slate-200">
-				<div class="h-1/6 text-center flex justify-center items-center">
-					<div>
-						<p class="text-lg font-medium pb-2">인공지능과 함께하기</p>
-						<img src="./robot.png" class="w-2/3 m-auto">
+				<div class="p-4">
+					<div class="text-center flex justify-center items-center mt-2 mb-5">	
+						<img src="./robot.png" class="h-8 mr-4">
+						<p class="text-md font-medium">인공지능에게 부탁하기</p>
+					</div>
+					<div class="text-center">
+						<textarea class="
+							form-control
+							w-full
+							font-normal
+							text-gray-700
+							bg-clip-padding
+							bg-gray-100
+							p-3
+							transition
+							ease-in-out
+							m-0
+							text-xs
+						"
+						id="exampleFormControlTextarea1"
+						rows="1"
+						placeholder="#키워드1, #키워드2, #키워드3, ..."
+						></textarea>
+						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
+							<img src="./question.png" class="w-6 mr-2"><p class="text-sm">키워드로 인공지능에게 부탁하기</p>
+						</button>
+						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
+							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음 문장을 부탁하기</p>
+						</button>
+						<div class="flex justify-center mt-3">
+							<img src="./surprise.png" class="w-1/6 p-2">
+						</div>
+						<div class="px-5">
+							<RangeSlider values={[50]} pips first='label' last='label' formatter={ v => "" } />
+						</div>
 					</div>
 				</div>
-				<div class="h-4/5 p-4">
-					<div>
-						<p class="text-lg text-left pb-3">다음 문장을 부탁해</p>
+				<div class="h-1/2 p-4">
+					<div class="text-center flex justify-center items-center mt-2 mb-5">	
+						<img src="./robot_1.png" class="h-8 mr-4">
+						<p class="text-md font-medium">내가 한번 제안해볼게</p>
+					</div>
+					<div class="text-left">
 						<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
 						<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
 						<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
 						<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
 						<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
-					</div>
-					<div class="pt-7 text-center">
-						<p class="text-lg text-left pb-3">인공지능에게 부탁해</p>
-						<div class="border border-gray-400 rounded p-2 shadow">
-							<textarea
-							class="
-								form-control
-								w-full
-								font-normal
-								text-gray-700
-								bg-clip-padding
-								bg-transparent
-								transition
-								ease-in-out
-								m-0
-								text-sm
-							"
-							id="exampleFormControlTextarea1"
-							rows="3"
-							placeholder="여기에 메시지를 적어주세요"
-							></textarea>
-						</div>
-						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-							<p class="text-sm">요청하기</p>
-						</button>
-					</div>
-					<div class="pt-7 text-center">
-						<p class="text-lg text-left pb-3">내가 쓴 글의 감정은?</p>
-						<div class="mb-3 text-left">
-							<a class="tag-emotion"># 슬픔</a>
-							<a class="tag-emotion"># 분노</a>
-							<a class="tag-emotion"># 사랑</a>
-							<a class="tag-emotion"># 혼란</a>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -146,13 +163,13 @@
 	.tag {
 		border: 1px solid #999;
 		border-radius: 15px;
-		font-size: 0.8rem;
-		font-weight: 500;
+		font-size: 0.75rem;
+		font-weight: 400;
     	line-height: 1.25rem;
-		padding-top: 0.125rem;
-		padding-bottom: 0.25rem;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
+		padding-top: 0.2rem;
+		padding-bottom: 0.2rem;
+		padding-left: 0.4rem;
+		padding-right: 0.4rem;
 		display: inline-block;	
 		margin-bottom: 0.25rem;
 	}
@@ -180,5 +197,19 @@
 	:global(.jsCalendar-current) {
 		color: #333 !important;
 		background-color: rgb(218, 218, 218) !important;
+	}
+	:global(.pip.first) {
+		font-size: .7rem !important;
+	}
+	:global(.pip.last) {
+		font-size: .7rem !important;
+	}
+	:global(.pip.first > .pipVal:after) {
+  		content: '전형적이지만,\A높은 완성도' !important;
+		white-space: pre !important;
+	}
+	:global(.pip.last > .pipVal:after) {
+  		content: '완성도가 낮더라도,\A다양한 문장' !important;
+		white-space: pre !important;
 	}
   </style>
