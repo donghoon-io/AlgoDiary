@@ -16,6 +16,7 @@
 		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.5.1",
 		"autoprefixer": "^10.4.7",
+		"fractils": "^2.0.3",
 		"postcss": "^8.4.14",
 		"svelte": "^3.49.0",
 		"svelte-calendar": "^3.1.6",
@@ -29,6 +30,7 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
 		"cookie": "^0.4.1",
-		"simple-jscalendar": "^1.4.4"
+		"simple-jscalendar": "^1.4.4",
+		"svelte-notifications": "^0.9.96"
 	}
 }

@@ -1,14 +1,22 @@
 <script>
-	import Header from '$lib/header/Header.svelte';
-	import Footer from '$lib/footer/Footer.svelte';
+	import { experimentID, nickname } from '$lib/store';
+	import Login from '$lib/Login.svelte';
 	import '../app.css';
+  	import Notifications from 'svelte-notifications';
 </script>
 
 
 
-<main>
-	<slot />
-</main>
+
+<Notifications>
+	<main>
+		{#if $experimentID != 0 && $nickname != "" }
+		<slot />
+		{:else}
+		<Login />
+		{/if}
+	</main>
+</Notifications>
 
 
 <style>

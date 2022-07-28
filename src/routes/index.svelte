@@ -1,14 +1,21 @@
 <script>
+	import { experimentID, nickname } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
 	
-	let checked = true;
+	let isSharing = true;
 
 	let cal;
+	var today = new Date();
 
 	const startString = "전형적이지만,\n\n높은 완성도";
 	const endString = "완성도가 낮더라도<br/>다양한 문장";
+
+	function logout() {
+		$experimentID = 0;
+		$nickname = "";
+	}
 
 	onMount(async () => {
     	var myCalendar = jsCalendar.new(cal);	
@@ -31,7 +38,7 @@
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
 					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
 					<button class="mt-3 hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-						<p class="text-sm">로그아웃</p>
+						<p on:click={logout} class="text-sm">로그아웃</p>
 					</button>
 				</div>
 			</div>
@@ -65,8 +72,24 @@
 			<div class="w-1/2 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
-						<p class="text-2xl pb-2">선배와 산책을 함</p>
-						<p class="text-sm">by 신동훈 - 7월 6일</p>
+						<textarea class="
+							form-control
+							w-full
+							font-normal
+							text-center
+							text-gray-700
+							bg-clip-padding
+							px-3
+							py-2
+							transition
+							ease-in-out
+							text-2xl
+						"
+						id="titleArea"
+						rows="1"
+						placeholder="제목을 입력해주세요"
+						></textarea>
+						<p class="text-sm">by {$nickname} - {String(today.getMonth() + 1)}월 {String(today.getDate()).padStart(2, '0')}일</p>
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
@@ -92,7 +115,7 @@
 					<div>
 						<div class="flex justify-center items-center space-x-3 pb-3">
 							<p class="text-sm">이 글을 연구진과 공유합니다</p>
-							<Switch bind:checked={checked}></Switch>
+							<Switch bind:checked={isSharing}></Switch>
 						</div>
 						<div class="flex justify-center items-center">
 							<button class="bg-white mt-1 hover:bg-gray-100 text-gray-800 font-medium py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
