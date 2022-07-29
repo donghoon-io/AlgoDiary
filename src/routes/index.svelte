@@ -5,8 +5,6 @@
 	import { onMount } from "svelte";
 	
 	let isSharing = true;
-
-	let cal;
 	var today = new Date();
 
 	const startString = "전형적이지만,\n\n높은 완성도";
@@ -31,8 +29,8 @@
 	function getPosts() {
 		return fetch('https://clovastudio.apigw.ntruss.com/testapp/v1/completions/LK-D', {
 			method: 'POST',
-			mode: 'no-cors',
 			headers: {
+				'Access-Control-Allow-Origin': 'https://algodiary.vercel.app/',
 				'Content-Type': 'application/json; charset=utf-8',
 				'X-NCP-CLOVASTUDIO-API-KEY': 'NTA0MjU2MWZlZTcxNDJiY3GNcS9m1HRyKoZrs+mFP7VLWjzx7JNmASdadhmRy2QLaqt4JXSzStoefNVW1yieINTpEjC2kBT1wCxMfm3NIKhfHd8vqh7B1eo5P7mrcOZWnK9ZH+gRKTCOIbORrgJc550FwFOOmdtm4k1MAh1+9B9rCfOl5g/9V/2oq5ahGgNx',
 				'X-NCP-APIGW-API-KEY': 'g5kDgJQ0gkeEBgngjxwux6d8ahz977ybwZ7a22KV',
@@ -48,16 +46,11 @@
 	}
 
 	onMount(async () => {
-    	var myCalendar = jsCalendar.new(cal);	
 	});
 </script>
 
 <svelte:head>
 	<title>Home</title>
-	
-	<script src="./calendar/calendar.js"></script>
-	<script type="text/javascript" src="./calendar/calendar.ko.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.css" integrity="sha384-44GnAqZy9yUojzFPjdcUpP822DGm1ebORKY8pe6TkHuqJ038FANyfBYBpRvw8O9w" crossorigin="anonymous">
 </svelte:head>
 
 <section>
@@ -77,8 +70,18 @@
 					</button>
 				</div>
 			</div>
-			<div class="px-4 py-2 text-center">
-				<div bind:this={cal} class="inline-block" data-language="ko"></div>
+			<div class="h-1/3 px-6 py-4 text-center overflow-scroll">
+				<table class="table">
+					<caption>표 제목</caption>
+					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+				</table>    
 			</div>
 			<div class="p-4">
 				<div class="flex">
@@ -100,10 +103,16 @@
 						  </button>
 					</div>
 				</div>
-				<p class="text-sm pt-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
+				<p class="text-sm pt-2 pb-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
+				<div class="pt-8 flex items-center">	
+					<img src="./robot_1.png" class="h-10 ml-2 mr-2">
+					<blockquote class="mx-8">
+					<p class="text-sm">오늘 시험때문에 정말 많이 힘들었겠다 ㅠㅠ 나도 그러면 진짜 힘들던데.. 그래도 다음번에는 더 잘 할 수 있을꺼야. 너의 내일을 응원해!</p>
+					</blockquote>     
+				</div>
 			</div>
 		</div>
-		<div class="flex w-2/3 divide-x border-2 border-gray-200 rounded shadow-md mr-6 my-3 bg-white">
+		<div class="flex w-2/3 divide-x border-2 border-gray-200 mr-6 my-3 bg-white">
 			<div class="w-1/2 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
@@ -152,22 +161,31 @@
 							<p class="text-sm">이 글을 연구진과 공유합니다</p>
 							<Switch bind:checked={isSharing}></Switch>
 						</div>
-						<div class="flex justify-center items-center">
+						<div class="flex justify-center items-center ml-8">
 							<button class="bg-white mt-1 hover:bg-gray-100 text-gray-800 font-medium py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
 								<p class="text-sm">저장하고 공감받기</p>
+							</button>
+							<button class="bg-white mt-1 bg-blue-400 hover:bg-gray-600 text-gray-800 font-medium ml-6 p-2 rounded-full drop-shadow-lg inline-flex items-center justify-center">
+								<img src="./photo.png" class="h-6">
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			<div class="w-1/2 h-full divide-y divide-slate-200">
+			<div class="w-1/2 h-full divide-slate-200">
 				<div class="p-4">
 					<div class="text-center flex justify-center items-center mt-2 mb-5">	
 						<img src="./robot.png" class="h-8 mr-4">
 						<p class="text-md font-medium">인공지능에게 부탁하기</p>
 					</div>
 					<div class="text-center">
+						<div class="flex justify-center mt-3">
+							<img src="./surprise.png" class="w-1/6 px-2 pt-2">
+						</div>
+						<div class="px-5 pb-5">
+							<RangeSlider values={[50]} pips first='label' last='label' formatter={ v => "" } />
+						</div>
 						<textarea class="
 							form-control
 							w-full
@@ -183,33 +201,31 @@
 						"
 						id="exampleFormControlTextarea1"
 						rows="1"
-						placeholder="#키워드1, #키워드2, #키워드3, ..."
+						placeholder="(선택사항) #키워드1, #키워드2, #키워드3, ..."
 						></textarea>
-						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
-							<img src="./question.png" class="w-6 mr-2"><p class="text-sm">키워드로 인공지능에게 부탁하기</p>
-						</button>
-						<button class="bg-white mt-2 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
+						<button class="bg-white mt-4 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
 							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음 문장을 부탁하기</p>
 						</button>
-						<div class="flex justify-center mt-3">
-							<img src="./surprise.png" class="w-1/6 p-2">
-						</div>
-						<div class="px-5">
-							<RangeSlider values={[50]} pips first='label' last='label' formatter={ v => "" } />
-						</div>
 					</div>
 				</div>
 				<div class="h-1/2 p-4">
-					<div class="text-center flex justify-center items-center mt-2 mb-5">	
-						<img src="./robot_1.png" class="h-8 mr-4">
-						<p class="text-md font-medium">내가 한번 제안해볼게</p>
-					</div>
-					<div class="text-left">
-						<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
-						<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
-						<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
-						<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
-						<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
+					<div class=" bg-gray-100 p-4 rounded-lg drop-shadow-lg">
+						<div class="text-center flex justify-center items-center mt-2 mb-6">	
+							<img src="./robot_1.png" class="h-8 mr-4">
+							<p class="text-md font-medium">내가 한번 제안해볼게</p>
+						</div>
+						<div class="text-left">
+							<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
+							<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
+							<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
+							<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
+							<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
+						</div>
+						<div class="text-center">
+							<button class="mt-4 hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+								<p class="text-sm">다시 제안받기</p>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -270,4 +286,62 @@
   		content: '완성도가 낮더라도,\A다양한 문장' !important;
 		white-space: pre !important;
 	}
+
+    .table {
+      border-collapse: collapse;
+      border-top: 0 !important;
+	  border-bottom: 0 !important;
+	  width: 100% !important
+    }  
+    .table th {
+		border-top: 0 !important;
+      color: #333;
+      text-align: center;
+    }
+    .table th, .table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+	  border-bottom: 0 !important
+    }
+    .table th:first-child, .table td:first-child {
+      border-left: 0;
+	  width: 25% !important
+    }
+    .table th:last-child, .table td:last-child {
+      border-right: 0;
+    }
+    .table tr td:first-child{
+      text-align: center;
+    }
+    .table caption{caption-side: bottom; display: none;}
+	blockquote {
+    position: relative;
+    /* background: #ddd; */
+}
+blockquote {
+    position: relative;
+    /* background: #ddd; */
+}
+
+blockquote:before {
+  position: absolute;
+  content: open-quote;
+  font-size: 2em;
+  margin-left: -0.6em;
+  margin-top: -0.4em;
+  
+}
+blockquote:after {
+  position: absolute;
+  content: close-quote;
+  font-size: 2em;
+  bottom: 0;
+  right: 0;
+  margin-right: -0.6em;
+  margin-bottom: -0.8em;
+}
+blockquote p {
+  display: inline;
+  font-style: italic;
+}
   </style>
