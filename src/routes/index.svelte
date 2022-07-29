@@ -1,4 +1,5 @@
 <script>
+	import { getPosts } from '$lib/clova'
 	import { experimentID, nickname } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
@@ -6,39 +7,6 @@
 	
 	let isSharing = true;
 	var today = new Date();
-
-	const startString = "전형적이지만,\n\n높은 완성도";
-	const endString = "완성도가 낮더라도<br/>다양한 문장";
-
-	var request_data = {
-		'text': '일기 내용에 대해 공감과 응원을 해주는 글을 적어줍니다. \n \n### \n일기: 진짜 오랜만에 회사에서 집으로 가는 길에 자전거 타고 돌아온 날. 카카오 바이크를 타고 집까지 온 거는 처음이라 광교 호수의 오르막길도 전기 자전거와 함께하니 수월하다는 걸 새삼 깨달음 \n공감: 자전거를 탔다니 재밌었겠다. 그래 삶도 비슷하게, 수월할 수 있어. 내일도 힘내보자 \n### \n일기: 이번 주간이 유난히 행복한 일이 가득했었던 듯. 수요일은 지방선거투표도 있어서 공휴일. 회사 안 가는 날. 뜻밖의 행궁동 데이트도 하고 코노도 가고 자건거도 타고. \n공감: 오 오늘은 지방선거투표가 있었구나. 행복한일이 가득했다니 나까지 기분이 좋아지네. 내일도 화이팅이야! \n### \n일기: 오늘은 기분이 그렇게 좋지 않다. 사기를 당했기 때문이다. 나한테는 왜 이런일만 생기는 걸까?\n공감: 사기를 당했다니. 너무 힘들었겠어. 그래도 힘내보자! 좋은일이 생길거야.\n###\n일기: 오늘은 마트에서 장을 보고 왔다. 장을 보는데, 오랜만에 초등학교 동창을 만났다. 그때는 참 재밌고 걱정이 없었는데. 요즘은 너무 행복하지 않은 것 같다.\n공감: 나도 그 마음 알아. 너처럼 옛날에는 고민없이 즐거웠는데 지금은 그렇지 않아. 하지만 언젠가 너도 다시 즐거운 순간이 올거야. 힘내고 우리 같이 파이팅하자!\n###\n일기:',
-		'maxTokens': 138,
-		'temperature': 0.74,
-		'topK': 0,
-		'topP': 0.8,
-		'repeatPenalty': 7.0,
-		'start': '\n공감:',
-		'restart': '\n###\n일기:',
-		'stopBefore': ['###', '###\n', '질문:', '대답:'],
-		'includeTokens': 1,
-		'includeAiFilters': true
-	};
-	
-	var result;
-
-	function getPosts() {
-		return fetch('https://clovastudio.apigw.ntruss.com/testapp/v1/completions/LK-D', {
-			method: 'POST',
-			headers: {
-				'Access-Control-Allow-Origin': 'https://algodiary.vercel.app/',
-				'Content-Type': 'application/json; charset=utf-8',
-				'X-NCP-CLOVASTUDIO-API-KEY': 'NTA0MjU2MWZlZTcxNDJiY3GNcS9m1HRyKoZrs+mFP7VLWjzx7JNmASdadhmRy2QLaqt4JXSzStoefNVW1yieINTpEjC2kBT1wCxMfm3NIKhfHd8vqh7B1eo5P7mrcOZWnK9ZH+gRKTCOIbORrgJc550FwFOOmdtm4k1MAh1+9B9rCfOl5g/9V/2oq5ahGgNx',
-				'X-NCP-APIGW-API-KEY': 'g5kDgJQ0gkeEBgngjxwux6d8ahz977ybwZ7a22KV',
-				'X-NCP-CLOVASTUDIO-REQUEST-ID': '798e023bb4f442ed99a14e849210ae7d'
-			},
-			body: JSON.stringify(request_data)})
-		.then(response => result = response);
-	}
 	
 	function logout() {
 		$experimentID = 0;
@@ -54,10 +22,10 @@
 </svelte:head>
 
 <section>
-	{#await getPosts()}
+	{#await getPosts("코딩 조까타")}
 	<h2>Loading...</h2>
-	{:then result}
-	{result}
+	{:then items1}
+	{items1}
 	{/await}
 	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-50">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
