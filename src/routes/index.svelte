@@ -4,12 +4,41 @@
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
+	import { getNotificationsContext } from 'svelte-notifications';
+
+	const { addNotification } = getNotificationsContext();
 	
 	let isSharing = true;
 	var today = new Date();
 
+	let diaryTitle = "";
+	let diaryContent = "";
+
 	$: range = [$temperature]
 	$: temperature.set(range[0])
+
+	function diaryComplete() {
+		if (diaryTitle == "") {
+			addNotification({
+				text: '제목을 입력해주세요',
+				type: 'danger',
+				position: 'top-center',
+				removeAfter: 3000,
+			})
+		}
+		if (diaryContent == "") {
+			addNotification({
+				text: '내용을 입력해주세요',
+				type: 'danger',
+				position: 'top-center',
+				removeAfter: 3000,
+			})
+		}
+		if (diaryTitle != "" && diaryContent != "") {
+			// save and populate here
+			getPosts(diaryContent).then(result => alert(result));
+		}
+	}
 	
 	function logout() {
 		$experimentID = 0;
@@ -33,11 +62,6 @@
 </svelte:head>
 
 <section>
-	{#await getPosts("코딩 조까타")}
-	<h2>Loading...</h2>
-	{:then items1}
-	{items1}
-	{/await}
 	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-50">
 		<div class="w-1/3 h-full divide-y divide-slate-200">
 			<div class="h-1/5 text-center flex justify-center items-center">
@@ -95,7 +119,7 @@
 			<div class="w-1/2 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
-						<textarea class="
+						<textarea bind:value={diaryTitle} class="
 							form-control
 							w-full
 							font-normal
@@ -116,7 +140,7 @@
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
-					<textarea
+					<textarea bind:value={diaryContent}
 						class="
 							form-control
 							w-full
@@ -128,6 +152,7 @@
 							transition
 							ease-in-out
 							m-0
+							p-1
 							text-sm
 						"
 						id="diaryTextArea"
@@ -142,7 +167,7 @@
 						</div>
 						<div class="flex justify-center items-center ml-8">
 							<button class="bg-white mt-1 hover:bg-gray-100 text-gray-800 font-medium py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-								<p class="text-sm">저장하고 공감받기</p>
+								<p class="text-sm" on:click={diaryComplete}>저장하고 공감받기</p>
 							</button>
 							<button class="bg-white mt-1 bg-blue-400 hover:bg-gray-600 text-gray-800 font-medium ml-6 p-2 rounded-full drop-shadow-lg inline-flex items-center justify-center">
 								<img src="./photo.png" class="h-6">
@@ -231,28 +256,7 @@
 	.tag:last-of-type {
 		margin-bottom: 0 !important;
 	}
-	.tag-emotion {
-		border: 1px solid #999;
-		border-radius: 15px;
-		font-size: 0.8rem;
-		font-weight: 500;
-    	line-height: 1.25rem;
-		padding-top: 0.125rem;
-		padding-bottom: 0.25rem;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-		margin-bottom: 0.25rem;
-	}
-	.tag-emotion:last-of-type {
-		margin-bottom: 0 !important;
-	}
-	:global(.jsCalendar table) {
-		background-color: transparent !important;
-	}
-	:global(.jsCalendar-current) {
-		color: #333 !important;
-		background-color: rgb(218, 218, 218) !important;
-	}
+	
 	:global(.pip.first) {
 		font-size: .7rem !important;
 	}
@@ -295,34 +299,35 @@
       text-align: center;
     }
     .table caption{caption-side: bottom; display: none;}
+
 	blockquote {
     position: relative;
-    /* background: #ddd; */
-}
-blockquote {
-    position: relative;
-    /* background: #ddd; */
+		/* background: #ddd; */
+	}
+	blockquote {
+		position: relative;
+		/* background: #ddd; */
 }
 
 blockquote:before {
-  position: absolute;
-  content: open-quote;
-  font-size: 2em;
-  margin-left: -0.6em;
-  margin-top: -0.4em;
-  
+	position: absolute;
+	content: open-quote;
+	font-size: 2em;
+	margin-left: -0.6em;
+	margin-top: -0.4em;
+	
 }
 blockquote:after {
-  position: absolute;
-  content: close-quote;
-  font-size: 2em;
-  bottom: 0;
-  right: 0;
-  margin-right: -0.6em;
-  margin-bottom: -0.8em;
+	position: absolute;
+	content: close-quote;
+	font-size: 2em;
+	bottom: 0;
+	right: 0;
+	margin-right: -0.6em;
+	margin-bottom: -0.8em;
 }
 blockquote p {
-  display: inline;
-  font-style: italic;
+	display: inline;
+  	font-style: italic;
 }
   </style>
