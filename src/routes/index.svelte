@@ -1,12 +1,15 @@
 <script>
 	import { getPosts } from '$lib/clova'
-	import { experimentID, nickname } from '$lib/store'
+	import { experimentID, nickname, temperature } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
 	
 	let isSharing = true;
 	var today = new Date();
+
+	$: range = [$temperature]
+	$: temperature.set(range[0])
 	
 	function logout() {
 		$experimentID = 0;
@@ -160,7 +163,7 @@
 							<img src="./surprise.png" class="w-1/6 px-2 pt-2">
 						</div>
 						<div class="px-5 pb-5">
-							<RangeSlider values={[50]} pips first='label' last='label' formatter={ v => "" } />
+							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 						</div>
 						<textarea class="
 							form-control
