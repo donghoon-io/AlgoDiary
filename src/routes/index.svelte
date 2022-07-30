@@ -12,6 +12,14 @@
 		$experimentID = 0;
 		$nickname = "";
 	}
+	function changeName() {
+		let person = prompt("변경할 이름을 입력해주세요:", $nickname);
+		if (person == "") {
+			alert("최소 1자 이상으로 입력해주세요");
+		} else if (person != null) {
+			$nickname = person;
+		}
+	}
 
 	onMount(async () => {
 	});
@@ -101,7 +109,7 @@
 						rows="1"
 						placeholder="제목을 입력해주세요"
 						></textarea>
-						<p class="text-sm">by {$nickname} - {String(today.getMonth() + 1)}월 {String(today.getDate()).padStart(2, '0')}일</p>
+						<p class="text-sm">by {$nickname} <button on:click={changeName}><img class="w-4 h-4" style="margin-bottom: -.2rem !important" src="./pencil.png"></button> - {String(today.getMonth() + 1)}월 {String(today.getDate()).padStart(2, '0')}일</p>
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
@@ -183,14 +191,13 @@
 							<p class="text-md font-medium">내가 한번 제안해볼게</p>
 						</div>
 						<div class="text-left">
-							<a class="tag">시간이 없다는것은 항상 아쉬운 일이다.</a>
-							<a class="tag">나에게 시간은 항상 부족하기만 한 것이였다. </a>
-							<a class="tag">걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.</a>
-							<a class="tag">시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.</a>
-							<a class="tag">짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다.</a>
-						</div>
+							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
 						<div class="text-center">
-							<button class="mt-4 hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+							<button class="mt-4 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
 								<p class="text-sm">다시 제안받기</p>
 							</button>
 						</div>
@@ -203,9 +210,8 @@
 
 <style>
 	.tag {
-		border: 1px solid #999;
 		border-radius: 15px;
-		font-size: 0.75rem;
+		font-size: 0.8rem;
 		font-weight: 400;
     	line-height: 1.25rem;
 		padding-top: 0.2rem;
@@ -213,7 +219,11 @@
 		padding-left: 0.4rem;
 		padding-right: 0.4rem;
 		display: inline-block;	
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.25rem !important;
+	}
+	.tag:hover {
+		background-color: #ddd;
+		font-weight: 700;
 	}
 	.tag:last-of-type {
 		margin-bottom: 0 !important;
