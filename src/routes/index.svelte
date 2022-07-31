@@ -62,9 +62,9 @@
 </svelte:head>
 
 <section>
-	<div class="flex h-screen divide-x divide-slate-200 bg-zinc-50">
-		<div class="w-1/3 h-full divide-y divide-slate-200">
-			<div class="h-1/5 text-center flex justify-center items-center">
+	<div class="flex h-screen divide-x divide-slate-200">
+		<div class="w-1/3 h-full divide-y divide-slate-200 bg-zinc-100">
+			<div class="h-1/5 text-center flex justify-center items-center bg-white">
 				<div>
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
 					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
@@ -73,7 +73,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="h-1/3 px-6 py-4 text-center overflow-scroll">
+			<div class="h-1/3 px-6 py-4 text-center overflow-scroll bg-white">
 				<table class="table">
 					<caption>표 제목</caption>
 					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
@@ -115,8 +115,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex w-2/3 divide-x border-2 border-gray-200 mr-6 my-3 bg-white">
-			<div class="w-1/2 divide-y divide-slate-200">
+		<div class="w-1/3 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
 						<textarea bind:value={diaryTitle} class="
@@ -177,19 +176,36 @@
 				</div>
 			</div>
 			
-			<div class="w-1/2 h-full divide-slate-200">
-				<div class="p-4">
-					<div class="text-center flex justify-center items-center mt-2 mb-5">	
-						<img src="./robot.png" class="h-8 mr-4">
-						<p class="text-md font-medium">인공지능에게 부탁하기</p>
+			<div class="w-1/3 h-full divide-slate-200">
+				<div class="h-1/2 p-4">
+					<div class="text-center flex justify-center items-center mt-2 mb-6">	
+						<img src="./robot_1.png" class="h-8 mr-4">
+						<p class="text-md font-medium">이런 문장은 어때?</p>
+					</div>
+					<div class="text-left">
+						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+					<div class="text-center">
+						<button class="mt-6 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다시 제안받기</p>
+						</button>
+					</div>
+				</div>
+				<div class="py-4">
+					<div class="flex mt-8 mb-5">	
+						<p class="text-sm text-slate-600">어떤 문장을 제안받고 싶은가요?</p>
 					</div>
 					<div class="text-center">
-						<div class="flex justify-center mt-3">
-							<img src="./surprise.png" class="w-1/6 px-2 pt-2">
-						</div>
 						<div class="px-5 pb-5">
 							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 						</div>
+
+					<div class="flex mt-8 mb-5">	
+						<p class="text-sm text-slate-600">인공지능이 써줬으면 하는 내용이 있나요?</p>
+					</div>
 						<textarea class="
 							form-control
 							w-full
@@ -207,43 +223,23 @@
 						rows="1"
 						placeholder="(선택사항) #키워드1, #키워드2, #키워드3, ..."
 						></textarea>
-						<button class="bg-white mt-4 hover:bg-gray-100 text-gray-800 font-medium py-1 border border-gray-400 rounded shadow inline-flex items-center justify-center w-full">
+						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3">
 							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음 문장을 부탁하기</p>
 						</button>
 					</div>
 				</div>
-				<div class="h-1/2 p-4">
-					<div class=" bg-gray-100 p-4 rounded-lg drop-shadow-lg">
-						<div class="text-center flex justify-center items-center mt-2 mb-6">	
-							<img src="./robot_1.png" class="h-8 mr-4">
-							<p class="text-md font-medium">내가 한번 제안해볼게</p>
-						</div>
-						<div class="text-left">
-							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-							<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-						<div class="text-center">
-							<button class="mt-4 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-								<p class="text-sm">다시 제안받기</p>
-							</button>
-						</div>
-					</div>
-				</div>
 			</div>
-		</div>
 	</div>
 </section>
 
 <style>
 	.tag {
 		border-radius: 15px;
-		font-size: 0.8rem;
-		font-weight: 400;
+		font-size: .9rem;
+		font-weight: 300;
     	line-height: 1.25rem;
-		padding-top: 0.2rem;
-		padding-bottom: 0.2rem;
+		padding-top: 0.4rem;
+		padding-bottom: 0.4rem;
 		padding-left: 0.4rem;
 		padding-right: 0.4rem;
 		display: inline-block;	
