@@ -65,7 +65,7 @@
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
 			getPosts(diaryContent).then(result => {
-				openModal(Modal, { title: 'Alert', message: result });
+				openModal(Modal, { message: result });
 			});
 		}
 	}
@@ -92,7 +92,7 @@
 </svelte:head>
 
 
-<Modals class="z-10">
+<Modals>
 	<div
 		slot="backdrop"
 		class="backdrop"
