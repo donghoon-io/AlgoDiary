@@ -1,5 +1,5 @@
 <script>
-	import { getPosts } from '$lib/clova'
+	import { getPosts, getFromKeywords } from '$lib/clova'
 	import { experimentID, nickname, temperature } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
@@ -38,6 +38,8 @@
 	let diaryTitle = "";
 	let diaryContent = "";
 
+	let tags = "";
+
 	$: range = [$temperature]
 	$: temperature.set(range[0])
 
@@ -64,8 +66,24 @@
 		}
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
-			getPosts(diaryContent).then(result => {
+			getFromKeywords("아이폰, 갤럭시").then(result => {
 				openModal(Modal, { message: result });
+			});
+		}
+	}
+
+	function keywordComplete(text) {
+		if (tags == "") {
+			addNotification({
+				text: '키워드를 입력해주세요',
+				type: 'danger',
+				position: 'top-center',
+				removeAfter: 3000,
+			})
+		} else {
+			// save and populate here
+			getFromKeywords(tags).then(result => {
+				diaryContent += result;
 			});
 		}
 	}
@@ -251,9 +269,10 @@
 						"
 						id="exampleFormControlTextarea1"
 						rows="1"
-						placeholder="(선택사항) #키워드1, #키워드2, #키워드3, ..."
+						placeholder="(선택사항) 키워드1, 키워드2, 키워드3, ..."
+						bind:value={tags}
 						></textarea>
-						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3">
+						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3" on:click={() => keywordComplete(tags)}>
 							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">문장을 만들어줘</p>
 						</button>
 					</div>
