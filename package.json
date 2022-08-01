@@ -33,6 +33,7 @@
 		"cookie": "^0.4.1",
 		"simple-jscalendar": "^1.4.4",
 		"svelte-modals": "^1.1.0",
-		"svelte-notifications": "^0.9.96"
+		"svelte-notifications": "^0.9.96",
+		"svelte-tabs": "^1.1.0"
 	}
 }
