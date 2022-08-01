@@ -5,17 +5,44 @@
     import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
 	import { getNotificationsContext } from 'svelte-notifications';
+	import { openModal } from 'svelte-modals'
+	import { Modals, closeModal } from 'svelte-modals'
+	import Modal from '$lib/Modal.svelte'
+
 
 	const { addNotification } = getNotificationsContext();
 	
 	let isSharing = true;
 	var today = new Date();
 
+	var recommendedPhrase = [
+		"시간이 없다는것은 항상 아쉬운 일이다.",
+		"나에게 시간은 항상 부족하기만 한 것이였다.", 
+		"걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.",
+		"시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.",
+		"짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다."
+	];
+
+	var prevData = [
+		{"title": "title7", "content": "content7", "date": "date7", "feedback": "feedback7"},
+		{"title": "title6", "content": "content6", "date": "date6", "feedback": "feedback6"},
+		{"title": "title5", "content": "content5", "date": "date5", "feedback": "feedback5"},
+		{"title": "title4", "content": "content4", "date": "date4", "feedback": "feedback4"},
+		{"title": "title3", "content": "content3", "date": "date3", "feedback": "feedback3"},
+		{"title": "title2", "content": "content2", "date": "date2", "feedback": "feedback2"},
+		{"title": "title1", "content": "content1", "date": "date1", "feedback": "feedback1"}
+	]
+	var highlightedData = {"title": "title7", "content": "content7", "date": "date7", "feedback": "feedback7"};
+
 	let diaryTitle = "";
 	let diaryContent = "";
 
 	$: range = [$temperature]
 	$: temperature.set(range[0])
+
+	function addText(text) {
+		diaryContent += text
+	}
 
 	function diaryComplete() {
 		if (diaryTitle == "") {
@@ -36,7 +63,9 @@
 		}
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
-			getPosts(diaryContent).then(result => alert(result));
+			getPosts(diaryContent).then(result => {
+				openModal(Modal, { title: 'Alert', message: result });
+			});
 		}
 	}
 	
@@ -61,6 +90,15 @@
 	<title>Home</title>
 </svelte:head>
 
+
+<Modals class="z-10">
+	<div
+		slot="backdrop"
+		class="backdrop"
+		on:click={closeModal}
+	/>
+</Modals>
+
 <section>
 	<div class="flex h-screen divide-x divide-slate-200">
 		<div class="w-1/3 h-full divide-y divide-slate-200 bg-zinc-100">
@@ -77,19 +115,15 @@
 				<table class="table">
 					<caption>표 제목</caption>
 					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
-					<tr class="text-sm"><td>8/12 (화)</td><td>선배와 산책을 함</td></tr>
+					{#each prevData as data, idx}
+					<tr class="text-sm cursor-pointer" on:click={() => highlightedData = prevData[idx]}><td>{data.date}</td><td>{data.title}</td></tr>
+					{/each}
 				</table>    
 			</div>
 			<div class="p-4">
 				<div class="flex">
 					<div>
-						<p class="text-xl pb-3">7월 6일</p>
+						<p class="text-xl pb-3">{highlightedData.date}</p>
 					</div>
 					<div class="ml-auto">
 						<button type="button" class="hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2 text-center inline-flex items-center">
@@ -106,11 +140,11 @@
 						  </button>
 					</div>
 				</div>
-				<p class="text-sm pt-2 pb-2">기존에 쓰던 메모장 앱을 버리고 에버노트로 옮기는 중이다. 집을 이사하는 것 만큼 품이 많이 들지만 행복하다. 프리미엄 서비스를 결제하고도 외려 너무 싼 거 아닌가 하는 생각이 들 정도다. 이용자들의 입에서 고맙다는 말이 나오면 이미 성공한 서비스 아닐까?</p>
+				<p class="text-sm pt-2 pb-2">{highlightedData.content}</p>
 				<div class="pt-8 flex items-center">	
 					<img src="./robot_1.png" class="h-10 ml-2 mr-2">
 					<blockquote class="mx-8">
-					<p class="text-sm">오늘 시험때문에 정말 많이 힘들었겠다 ㅠㅠ 나도 그러면 진짜 힘들던데.. 그래도 다음번에는 더 잘 할 수 있을꺼야. 너의 내일을 응원해!</p>
+					<p class="text-sm">{highlightedData.feedback}</p>
 					</blockquote>     
 				</div>
 			</div>
@@ -182,12 +216,10 @@
 						<img src="./robot_1.png" class="h-8 mr-4">
 						<p class="text-md font-medium">이런 문장은 어때?</p>
 					</div>
-					<div class="text-left">
-						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
-						<button class="tag">시간이 없다는것은 항상 아쉬운 일이다.</button>
+					<div>
+						{#each recommendedPhrase as phrase}
+						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
+						{/each}
 					<div class="text-center">
 						<button class="mt-6 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
 							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다시 제안받기</p>
@@ -303,27 +335,35 @@
 	blockquote {
 		position: relative;
 		/* background: #ddd; */
-}
-
-blockquote:before {
-	position: absolute;
-	content: open-quote;
-	font-size: 2em;
-	margin-left: -0.6em;
-	margin-top: -0.4em;
-	
-}
-blockquote:after {
-	position: absolute;
-	content: close-quote;
-	font-size: 2em;
-	bottom: 0;
-	right: 0;
-	margin-right: -0.6em;
-	margin-bottom: -0.8em;
-}
-blockquote p {
-	display: inline;
-  	font-style: italic;
-}
+	}
+	blockquote:before {
+		position: absolute;
+		content: open-quote;
+		font-size: 2em;
+		margin-left: -0.6em;
+		margin-top: -0.4em;
+		
+	}
+	blockquote:after {
+		position: absolute;
+		content: close-quote;
+		font-size: 2em;
+		bottom: 0;
+		right: 0;
+		margin-right: -0.6em;
+		margin-bottom: -0.8em;
+	}
+	blockquote p {
+		display: inline;
+		font-style: italic;
+	}
+	.backdrop {
+		position: fixed;
+		top: 0;
+		z-index: 10 !important;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		background: rgba(0,0,0,0.50)
+	}
   </style>
