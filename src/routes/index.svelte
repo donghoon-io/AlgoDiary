@@ -10,9 +10,13 @@
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
 	import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
+	import { doc, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
+
 
 
 	const { addNotification } = getNotificationsContext();
+
+	let db = getFirestore();
 	
 	let isSharing = true;
 	var today = new Date();
@@ -64,6 +68,8 @@
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
 			getPosts(diaryContent).then(result => {
+				addDoc(collection(db, "data", "12", "diary"), {"content": diaryContent, "feedback": result, "is_shared": isSharing, "last_data": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle});
+
 				openModal(Modal, { message: result });
 			});
 		}
