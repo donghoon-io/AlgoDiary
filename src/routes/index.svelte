@@ -102,7 +102,7 @@
 
 <section>
 	<div class="flex h-screen divide-x divide-slate-200">
-		<div class="w-1/3 h-full divide-y divide-slate-200 bg-zinc-100">
+		<div class="w-4/12 h-full divide-y divide-slate-200 bg-zinc-100">
 			<div class="h-1/5 text-center flex justify-center items-center bg-white">
 				<div>
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
@@ -150,7 +150,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="w-1/3 divide-y divide-slate-200">
+		<div class="w-5/12 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
 					<div>
 						<textarea bind:value={diaryTitle} class="
@@ -211,7 +211,11 @@
 				</div>
 			</div>
 			
-			<div class="w-1/3 h-full divide-slate-200">
+			<div class="w-4/12 h-full divide-slate-200">
+				<div class="p-6 text-center flex justify-center items-center">	
+					<img src="./robot_1.png" class="h-8 mr-4">
+					<p class="text-md font-medium">이런 문장은 어때?</p>
+				</div>
 			<Tabs>
 				<TabList>
 				  <Tab>키워드로 부탁하기</Tab>
@@ -221,7 +225,7 @@
 				<TabPanel>
 				  
 				<div class="p-4">
-					<div class="flex mb-5">	
+					<div class="flex mt-6">	
 						<p class="text-sm text-slate-600">어떤 문장을 제안받고 싶은가요?</p>
 					</div>
 					<div class="text-center">
@@ -229,9 +233,9 @@
 							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 						</div>
 
-					<div class="flex mt-8 mb-5">	
-						<p class="text-sm text-slate-600">인공지능이 써줬으면 하는 내용이 있나요?</p>
-					</div>
+						<div class="flex mt-8 mb-5">	
+							<p class="text-sm text-slate-600">인공지능이 참고할만한 키워드를 알려주세요</p>
+						</div>
 						<textarea class="
 							form-control
 							w-full
@@ -250,7 +254,7 @@
 						placeholder="(선택사항) #키워드1, #키워드2, #키워드3, ..."
 						></textarea>
 						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3">
-							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음 문장을 부탁하기</p>
+							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">문장을 만들어줘</p>
 						</button>
 					</div>
 				</div>
@@ -259,19 +263,23 @@
 				<TabPanel>
 					
 				<div class="p-4">
-					<div class="text-center flex justify-center items-center mt-2 mb-6">	
-						<img src="./robot_1.png" class="h-8 mr-4">
-						<p class="text-md font-medium">이런 문장은 어때?</p>
+					<div class="flex mt-6">	
+						<p class="text-sm text-slate-600">어떤 문장을 제안받고 싶은가요?</p>
 					</div>
-					<div>
+					<div class="text-center">
+					<div class="px-5 pb-5">
+						<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
+					</div>
+					<div class="text-left">
 						{#each recommendedPhrase as phrase}
 						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
 						{/each}
 					<div class="text-center">
 						<button class="mt-6 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다시 제안받기</p>
+							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
 					</div>
+				</div>
 				</div>
 				</TabPanel>
 			  </Tabs>
