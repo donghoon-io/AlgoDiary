@@ -1,10 +1,11 @@
 <script>
-	import { getPosts, getFromKeywords } from '$lib/clova'
+	import { getPosts, getFromKeywords, predictNextSentence } from '$lib/clova'
 	import { experimentID, nickname, temperature } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
 	import { onMount } from "svelte";
 	import { getNotificationsContext } from 'svelte-notifications';
+	import { mapRange } from 'fractils'
 	import { openModal } from 'svelte-modals'
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
@@ -16,13 +17,7 @@
 	let isSharing = true;
 	var today = new Date();
 
-	var recommendedPhrase = [
-		"시간이 없다는것은 항상 아쉬운 일이다.",
-		"나에게 시간은 항상 부족하기만 한 것이였다.", 
-		"걷는데에는 항상 시간이 부족하다는 것을 많이 느낀다.",
-		"시간이 항상 부족하지만, 그 안에서 어떻게든 방법을 찾아야 하는것이 직장인의 삶인가보다.",
-		"짧게라도 걷는것은 나의 정신건강에 도움이 많이 된다."
-	];
+	var recommendedPhrase = [];
 
 	var prevData = [
 		{"title": "title7", "content": "content7", "date": "date7", "feedback": "feedback7"},
@@ -42,6 +37,8 @@
 
 	$: range = [$temperature]
 	$: temperature.set(range[0])
+
+	$: tempMapped = mapRange($temperature, 0, 100, 0.0, 1.0)
 
 	function addText(text) {
 		diaryContent += text
@@ -66,7 +63,7 @@
 		}
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
-			getFromKeywords("아이폰, 갤럭시").then(result => {
+			getPosts(diaryContent).then(result => {
 				openModal(Modal, { message: result });
 			});
 		}
@@ -82,8 +79,24 @@
 			})
 		} else {
 			// save and populate here
-			getFromKeywords(tags).then(result => {
+			getFromKeywords(tags, tempMapped).then(result => {
 				diaryContent += result;
+			});
+		}
+	}
+
+	function nextComplete() {
+		if (diaryContent == "") {
+			addNotification({
+				text: '일기란에 최소 한 문장을 입력해주세요',
+				type: 'danger',
+				position: 'top-center',
+				removeAfter: 3000,
+			})
+		} else {
+			// save and populate here
+			predictNextSentence(diaryContent, tempMapped).then(result => {
+				recommendedPhrase = [result];
 			});
 		}
 	}
@@ -289,15 +302,19 @@
 					<div class="px-5 pb-5">
 						<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 					</div>
-					<div class="text-left">
-						{#each recommendedPhrase as phrase}
-						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
-						{/each}
 					<div class="text-center">
-						<button class="mt-6 hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+						<button class="hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center" on:click={nextComplete}>
 							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
 					</div>
+					<div class="text-left mt-6 pt-6">
+						{#if recommendedPhrase.length != 0}
+						{#each recommendedPhrase as phrase}
+						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
+						{/each}
+						{:else}
+						<p class="text-center text-sm text-gray-500 leading-6">“문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
+						{/if}
 				</div>
 				</div>
 				</TabPanel>
