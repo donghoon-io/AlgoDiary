@@ -170,7 +170,7 @@
 						rows="1"
 						placeholder="제목을 입력해주세요"
 						></textarea>
-						<p class="text-sm">by {$nickname} <button on:click={changeName}><img class="w-4 h-4" style="margin-bottom: -.2rem !important" src="./pencil.png"></button> - {String(today.getMonth() + 1)}월 {String(today.getDate()).padStart(2, '0')}일</p>
+						<p class="text-sm">by {$nickname} <button on:click={changeName}><img class="w-4 h-4" style="margin-bottom: -.2rem !important" src="./pencil.png"></button> - {String(today.getMonth() + 1)}월 {String(today.getDate())}일</p>
 					</div>
 				</div>
 				<div class="h-3/5 p-4">
