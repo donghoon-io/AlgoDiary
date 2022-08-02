@@ -10,7 +10,7 @@
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
 	import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
-	import { doc, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
+	import { doc, onSnapshot, query, orderBy, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
 
 
 
@@ -24,15 +24,8 @@
 	var recommendedPhrase = [];
 
 	var prevData = [
-		{"title": "title7", "content": "content7", "date": "date7", "feedback": "feedback7"},
-		{"title": "title6", "content": "content6", "date": "date6", "feedback": "feedback6"},
-		{"title": "title5", "content": "content5", "date": "date5", "feedback": "feedback5"},
-		{"title": "title4", "content": "content4", "date": "date4", "feedback": "feedback4"},
-		{"title": "title3", "content": "content3", "date": "date3", "feedback": "feedback3"},
-		{"title": "title2", "content": "content2", "date": "date2", "feedback": "feedback2"},
-		{"title": "title1", "content": "content1", "date": "date1", "feedback": "feedback1"}
 	]
-	var highlightedData = {"title": "title7", "content": "content7", "date": "date7", "feedback": "feedback7"};
+	var highlightedData;
 
 	let diaryTitle = "";
 	let diaryContent = "";
@@ -68,7 +61,7 @@
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
 			getPosts(diaryContent).then(result => {
-				addDoc(collection(db, "data", "12", "diary"), {"content": diaryContent, "feedback": result, "is_shared": isSharing, "last_data": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle});
+				addDoc(collection(db, "data", String($experimentID), "diary"), {"content": diaryContent, "feedback": result, "is_shared": isSharing, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle});
 
 				openModal(Modal, { message: result });
 			});
@@ -119,6 +112,14 @@
 			$nickname = person;
 		}
 	}
+	
+	const q = query(collection(db, "data", String($experimentID), "diary"), orderBy("timestamp", "desc"))
+
+	onSnapshot(q, (snapshot) => {
+		prevData = snapshot.docs.map(doc => doc.data());
+	})
+
+
 
 	onMount(async () => {
 	});
@@ -149,19 +150,26 @@
 					</button>
 				</div>
 			</div>
-			<div class="h-1/3 px-6 py-4 text-center overflow-scroll bg-white">
+			<div class="{highlightedData != null ? 'h-2/5 px-6 py-4 text-center overflow-scroll bg-white' : 'h-4/5 px-6 py-4 text-center overflow-scroll bg-white'}">
+				{#if prevData.length != 0}
 				<table class="table">
 					<caption>표 제목</caption>
 					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
 					{#each prevData as data, idx}
-					<tr class="text-sm cursor-pointer" on:click={() => highlightedData = prevData[idx]}><td>{data.date}</td><td>{data.title}</td></tr>
+					<tr class="text-sm cursor-pointer" on:click={() => highlightedData = prevData[idx]}><td>{new Date(data.timestamp.seconds * 1000).getMonth()+1}월 {new Date(data.timestamp.seconds * 1000).getDate()}일</td><td>{data.title}</td></tr>
 					{/each}
-				</table>    
+				</table>  
+				{:else}
+				<div class="flex h-full items-center justify-center">
+					<p class="text-center text-sm text-gray-500 leading-6">아직 작성하신 일기가 없습니다.<br>오른쪽 화면에서 오늘의 일기를 작성해보세요!</p>
+				</div>
+				{/if}  
 			</div>
-			<div class="p-4">
+			{#if highlightedData != null}
+			<div class="p-4 h-2/5 overflow-scroll">
 				<div class="flex">
 					<div>
-						<p class="text-xl pb-3">{highlightedData.date}</p>
+						<p class="text-xl pb-3">{highlightedData.title}</p>
 					</div>
 					<div class="ml-auto">
 						<button type="button" class="hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2 text-center inline-flex items-center">
@@ -186,6 +194,7 @@
 					</blockquote>     
 				</div>
 			</div>
+			{/if}
 		</div>
 		<div class="w-5/12 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
@@ -260,16 +269,14 @@
 				</TabList>
 			  
 				<TabPanel>
-				  
-				<div class="p-4">
-					<div class="flex mt-6">	
-						<p class="text-sm text-slate-600">어떤 문장을 제안받고 싶은가요?</p>
-					</div>
-					<div class="text-center">
+					<div class="p-4">
+						<div class="flex mt-6">	
+							<p class="text-sm text-slate-600">어떤 문장을 제안받고 싶은가요?</p>
+						</div>
+						<div class="text-center">
 						<div class="px-5 pb-5">
 							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 						</div>
-
 						<div class="flex mt-8 mb-5">	
 							<p class="text-sm text-slate-600">인공지능이 참고할만한 키워드를 알려주세요</p>
 						</div>
@@ -308,7 +315,7 @@
 					<div class="px-5 pb-5">
 						<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 					</div>
-					<div class="text-center">
+					<div class="p-4 text-center">
 						<button class="hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center" on:click={nextComplete}>
 							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
@@ -319,7 +326,7 @@
 						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
 						{/each}
 						{:else}
-						<p class="text-center text-sm text-gray-500 leading-6">“문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
+						<p class="text-center text-sm text-gray-500 leading-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
 						{/if}
 				</div>
 				</div>
