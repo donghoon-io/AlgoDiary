@@ -1,10 +1,21 @@
 <script>
 	import { closeModal } from 'svelte-modals'
+	import { experimentID, nickname, temperature } from '$lib/store'
+	import { doc, updateDoc, getFirestore } from "firebase/firestore";
   
 	// provided by Modals
 	export let isOpen
 	
 	export let message
+	export let id
+	
+	let db = getFirestore();
+
+	function uploadReaction(id, isSatisfied) {
+		updateDoc(doc(db, "data", String($experimentID), "diary", id), {
+			"is_satisfied": isSatisfied
+		}).then(result => closeModal());
+	}
   </script>
   
   {#if isOpen}
@@ -17,8 +28,8 @@
 	  <p>{message}</p>
 	  
 	  <div class="actions">
-		<button on:click="{closeModal}">별로예요</button>
-		<button on:click="{closeModal}">마음에 들어요</button>
+		<button on:click="{() => uploadReaction(id, false)}">별로예요</button>
+		<button on:click="{() => uploadReaction(id, true)}">마음에 들어요</button>
 	  </div>
 	</div>
   </div>

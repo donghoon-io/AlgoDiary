@@ -37,10 +37,6 @@
 
 	$: tempMapped = mapRange($temperature, 0, 100, 0.0, 1.0)
 
-	function addText(text) {
-		diaryContent += text
-	}
-
 	function diaryComplete() {
 		if (diaryTitle == "") {
 			addNotification({
@@ -61,15 +57,26 @@
 		if (diaryTitle != "" && diaryContent != "") {
 			// save and populate here
 			getPosts(diaryContent).then(result => {
-				addDoc(collection(db, "data", String($experimentID), "diary"), {"content": diaryContent, "feedback": result, "is_shared": isSharing, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle});
-
-				openModal(Modal, { message: result });
+				addDoc(collection(db, "data", String($experimentID), "diary"), {"content": diaryContent, "feedback": result, "is_shared": isSharing, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle}).then(doc => openModal(Modal, { message: result, id: doc.id }));
 			});
+		}
+	}
+db
+
+	function addText(text) {
+		if (diaryContent != "" && diaryContent != null) {
+			if (diaryContent.substr(diaryContent.length - 1) == " ") {
+				diaryContent += text;
+			} else {
+				diaryContent += " " + text;
+			}
+		} else {
+			diaryContent = text;
 		}
 	}
 
 	function keywordComplete(text) {
-		if (tags == "") {
+		if (tags == "" || tags == null) {
 			addNotification({
 				text: '키워드를 입력해주세요',
 				type: 'danger',
@@ -79,7 +86,7 @@
 		} else {
 			// save and populate here
 			getFromKeywords(tags, tempMapped).then(result => {
-				diaryContent += result;
+				addText(result);
 			});
 		}
 	}
@@ -295,7 +302,7 @@
 						"
 						id="exampleFormControlTextarea1"
 						rows="1"
-						placeholder="(선택사항) 키워드1, 키워드2, 키워드3, ..."
+						placeholder="키워드1, 키워드2, 키워드3, ..."
 						bind:value={tags}
 						></textarea>
 						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3" on:click={() => keywordComplete(tags)}>
@@ -323,7 +330,7 @@
 					<div class="text-left mt-6 pt-6">
 						{#if recommendedPhrase.length != 0}
 						{#each recommendedPhrase as phrase}
-						<button class="tag text-left" on:click={() => addText(" "+phrase)}>{phrase}</button>
+						<button class="tag text-left" on:click={() => addText(phrase)}>{phrase}</button>
 						{/each}
 						{:else}
 						<p class="text-center text-sm text-gray-500 leading-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
