@@ -21,7 +21,10 @@
 	let isSharing = true;
 	var today = new Date();
 
+	var recommendedKeywordPhrase = [];
 	var recommendedPhrase = [];
+
+	const delay = 1000;
 
 	var prevData = [
 	]
@@ -86,7 +89,28 @@ db
 		} else {
 			// save and populate here
 			getFromKeywords(tags, tempMapped).then(result => {
-				addText(result);
+				recommendedKeywordPhrase = [result];
+
+				setTimeout(() => {
+					getFromKeywords(tags, tempMapped).then(result1 => {
+						recommendedKeywordPhrase = [result, result1];
+						setTimeout(() => {
+							getFromKeywords(tags, tempMapped).then(result2 => {
+								recommendedKeywordPhrase = [result, result1, result2];
+								setTimeout(() => {
+									getFromKeywords(tags, tempMapped).then(result3 => {
+										recommendedKeywordPhrase = [result, result1, result2, result3];
+										setTimeout(() => {
+											getFromKeywords(tags, tempMapped).then(result4 => {
+												recommendedKeywordPhrase = [result, result1, result2, result3, result4];
+											});
+										}, delay);
+									});
+								}, delay);
+							});
+						}, delay);
+					});
+				}, delay);
 			});
 		}
 	}
@@ -103,6 +127,27 @@ db
 			// save and populate here
 			predictNextSentence(diaryContent, tempMapped).then(result => {
 				recommendedPhrase = [result];
+
+				setTimeout(() => {
+					predictNextSentence(diaryContent, tempMapped).then(result1 => {
+						recommendedPhrase = [result, result1];
+						setTimeout(() => {
+							predictNextSentence(diaryContent, tempMapped).then(result2 => {
+								recommendedPhrase = [result, result1, result2];
+								setTimeout(() => {
+									predictNextSentence(diaryContent, tempMapped).then(result3 => {
+										recommendedPhrase = [result, result1, result2, result3];
+										setTimeout(() => {
+											predictNextSentence(diaryContent, tempMapped).then(result4 => {
+												recommendedPhrase = [result, result1, result2, result3, result4];
+											});
+										}, delay);
+									});
+								}, delay);
+							});
+						}, delay);
+					});
+				}, delay);
 			});
 		}
 	}
@@ -284,7 +329,7 @@ db
 						<div class="px-5 pb-5">
 							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
 						</div>
-						<div class="flex mt-8 mb-5">	
+						<div class="flex mt-6 mb-5">	
 							<p class="text-sm text-slate-600">인공지능이 참고할만한 키워드를 알려주세요</p>
 						</div>
 						<textarea class="
@@ -306,8 +351,17 @@ db
 						bind:value={tags}
 						></textarea>
 						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3" on:click={() => keywordComplete(tags)}>
-							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">문장을 만들어줘</p>
+							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
+					</div>
+					<div class="text-left mt-6 overflow-scroll">
+						{#if recommendedKeywordPhrase.length != 0}
+						{#each recommendedKeywordPhrase as phrase}
+						<button class="tag text-left" on:click={() => addText(phrase)}>{phrase}</button>
+						{/each}
+						{:else}
+						<p class="text-center text-sm text-gray-500 leading-6 mt-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
+						{/if}
 					</div>
 				</div>
 				</TabPanel>
@@ -324,7 +378,7 @@ db
 					</div>
 					<div class="p-4 text-center">
 						<button class="hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center" on:click={nextComplete}>
-							<img src="./reload.png" class="w-6 p-1 mr-1"><p class="text-sm">다음문장을 만들어줘</p>
+							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
 					</div>
 					<div class="text-left mt-6 pt-6">
@@ -335,7 +389,7 @@ db
 						{:else}
 						<p class="text-center text-sm text-gray-500 leading-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
 						{/if}
-				</div>
+					</div>
 				</div>
 				</TabPanel>
 			  </Tabs>
