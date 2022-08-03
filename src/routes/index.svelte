@@ -9,6 +9,7 @@
 	import { openModal } from 'svelte-modals'
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
+	import CaptureModal from '$lib/CaptureModal.svelte'
 	import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
 	import { doc, onSnapshot, updateDoc, query, orderBy, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
 
@@ -26,8 +27,7 @@
 
 	const delay = 1000;
 
-	var prevData = [
-	]
+	var prevData = [];
 	var highlightedData;
 
 	let diaryTitle = "";
@@ -64,7 +64,6 @@
 			});
 		}
 	}
-db
 
 	function addText(text, id, isKeyword) {
 		if (isKeyword) {
@@ -328,7 +327,7 @@ db
 							<button class="bg-white mt-1 hover:bg-gray-100 text-gray-800 font-medium py-2 px-3 border border-gray-400 rounded shadow inline-flex items-center justify-center">
 								<p class="text-sm" on:click={diaryComplete}>저장하고 공감받기</p>
 							</button>
-							<button class="bg-white mt-1 bg-blue-400 hover:bg-gray-600 text-gray-800 font-medium ml-6 p-2 rounded-full drop-shadow-lg inline-flex items-center justify-center">
+							<button class="bg-white mt-1 bg-blue-400 hover:bg-gray-600 text-gray-800 font-medium ml-6 p-2 rounded-full drop-shadow-lg inline-flex items-center justify-center" on:click={() => openModal(CaptureModal, { diaryTitle: diaryTitle, diaryContent: diaryContent })}>
 								<img src="./photo.png" class="h-6">
 							</button>
 						</div>
