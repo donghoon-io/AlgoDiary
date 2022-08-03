@@ -10,7 +10,7 @@
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
 	import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
-	import { doc, onSnapshot, query, orderBy, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
+	import { doc, onSnapshot, updateDoc, query, orderBy, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
 
 
 
@@ -66,7 +66,19 @@
 	}
 db
 
-	function addText(text) {
+	function addText(text, id, isKeyword) {
+		if (isKeyword) {
+			updateDoc(doc(db, "data", String($experimentID), "keyword_request", id), {
+				"selection": text
+			})
+			recommendedKeywordPhrase = [];
+			tags = "";
+		} else {
+			updateDoc(doc(db, "data", String($experimentID), "next_sentence_request", id), {
+				"selection": text
+			})
+			recommendedPhrase = [];
+		}
 		if (diaryContent != "" && diaryContent != null) {
 			if (diaryContent.substr(diaryContent.length - 1) == " ") {
 				diaryContent += text;
@@ -77,6 +89,9 @@ db
 			diaryContent = text;
 		}
 	}
+
+	var currentKeywordID = "";
+	var currentNextID = "";
 
 	function keywordComplete(text) {
 		if (tags == "" || tags == null) {
@@ -91,26 +106,32 @@ db
 			getFromKeywords(tags, tempMapped).then(result => {
 				recommendedKeywordPhrase = [result];
 
-				setTimeout(() => {
-					getFromKeywords(tags, tempMapped).then(result1 => {
-						recommendedKeywordPhrase = [result, result1];
-						setTimeout(() => {
-							getFromKeywords(tags, tempMapped).then(result2 => {
-								recommendedKeywordPhrase = [result, result1, result2];
-								setTimeout(() => {
-									getFromKeywords(tags, tempMapped).then(result3 => {
-										recommendedKeywordPhrase = [result, result1, result2, result3];
-										setTimeout(() => {
-											getFromKeywords(tags, tempMapped).then(result4 => {
-												recommendedKeywordPhrase = [result, result1, result2, result3, result4];
-											});
-										}, delay);
-									});
-								}, delay);
-							});
-						}, delay);
-					});
-				}, delay);
+				addDoc(collection(db, "data", String($experimentID), "keyword_request"), {"original_content": diaryContent, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle, "tags": tags, "temperature": tempMapped, "recommendation": recommendedKeywordPhrase}).then(docu => {
+					currentKeywordID = docu.id;
+					setTimeout(() => {
+						getFromKeywords(tags, tempMapped).then(result1 => {
+							recommendedKeywordPhrase = [result, result1];
+							setTimeout(() => {
+								getFromKeywords(tags, tempMapped).then(result2 => {
+									recommendedKeywordPhrase = [result, result1, result2];
+									setTimeout(() => {
+										getFromKeywords(tags, tempMapped).then(result3 => {
+											recommendedKeywordPhrase = [result, result1, result2, result3];
+											setTimeout(() => {
+												getFromKeywords(tags, tempMapped).then(result4 => {
+													recommendedKeywordPhrase = [result, result1, result2, result3, result4];
+													updateDoc(doc(db, "data", String($experimentID), "keyword_request", docu.id), {
+														"recommendation": recommendedKeywordPhrase
+													})
+												});
+											}, delay);
+										});
+									}, delay);
+								});
+							}, delay);
+						});
+					}, delay);
+				})
 			});
 		}
 	}
@@ -128,26 +149,32 @@ db
 			predictNextSentence(diaryContent, tempMapped).then(result => {
 				recommendedPhrase = [result];
 
-				setTimeout(() => {
-					predictNextSentence(diaryContent, tempMapped).then(result1 => {
-						recommendedPhrase = [result, result1];
-						setTimeout(() => {
-							predictNextSentence(diaryContent, tempMapped).then(result2 => {
-								recommendedPhrase = [result, result1, result2];
-								setTimeout(() => {
-									predictNextSentence(diaryContent, tempMapped).then(result3 => {
-										recommendedPhrase = [result, result1, result2, result3];
-										setTimeout(() => {
-											predictNextSentence(diaryContent, tempMapped).then(result4 => {
-												recommendedPhrase = [result, result1, result2, result3, result4];
-											});
-										}, delay);
-									});
-								}, delay);
-							});
-						}, delay);
-					});
-				}, delay);
+				addDoc(collection(db, "data", String($experimentID), "next_sentence_request"), {"original_content": diaryContent, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "temperature": tempMapped, "title": diaryTitle, "recommendation": recommendedPhrase}).then(docu => {
+					currentNextID = docu.id;
+					setTimeout(() => {
+						predictNextSentence(diaryContent, tempMapped).then(result1 => {
+							recommendedPhrase = [result, result1];
+							setTimeout(() => {
+								predictNextSentence(diaryContent, tempMapped).then(result2 => {
+									recommendedPhrase = [result, result1, result2];
+									setTimeout(() => {
+										predictNextSentence(diaryContent, tempMapped).then(result3 => {
+											recommendedPhrase = [result, result1, result2, result3];
+											setTimeout(() => {
+												predictNextSentence(diaryContent, tempMapped).then(result4 => {
+													recommendedPhrase = [result, result1, result2, result3, result4];
+													updateDoc(doc(db, "data", String($experimentID), "next_sentence_request", docu.id), {
+														"recommendation": recommendedPhrase
+													})
+												});
+											}, delay);
+										});
+									}, delay);
+								});
+							}, delay);
+						});
+					}, delay);
+				})
 			});
 		}
 	}
@@ -357,7 +384,7 @@ db
 					<div class="text-left mt-6 overflow-scroll">
 						{#if recommendedKeywordPhrase.length != 0}
 						{#each recommendedKeywordPhrase as phrase}
-						<button class="tag text-left" on:click={() => addText(phrase)}>{phrase}</button>
+						<button class="tag text-left" on:click={() => addText(phrase, currentKeywordID, true)}>{phrase}</button>
 						{/each}
 						{:else}
 						<p class="text-center text-sm text-gray-500 leading-6 mt-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
@@ -384,7 +411,7 @@ db
 					<div class="text-left mt-6 pt-6">
 						{#if recommendedPhrase.length != 0}
 						{#each recommendedPhrase as phrase}
-						<button class="tag text-left" on:click={() => addText(phrase)}>{phrase}</button>
+						<button class="tag text-left" on:click={() => addText(phrase, currentNextID, false)}>{phrase}</button>
 						{/each}
 						{:else}
 						<p class="text-center text-sm text-gray-500 leading-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
