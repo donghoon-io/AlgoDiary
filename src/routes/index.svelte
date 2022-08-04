@@ -10,6 +10,9 @@
 	import { Modals, closeModal } from 'svelte-modals'
 	import Modal from '$lib/Modal.svelte'
 	import CaptureModal from '$lib/CaptureModal.svelte'
+	import Tooltip from '$lib/misc/tooltip/Tooltip.svelte';
+	import { tooltip } from '$lib/misc/tooltip/tooltip';
+	import { tooltip as tooltipv1 } from '$lib/misc/tooltip/tooltip.v1';
 	import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
 	import { doc, onSnapshot, updateDoc, query, orderBy, setDoc, collection, addDoc, getFirestore, Timestamp } from "firebase/firestore";
 
@@ -231,6 +234,7 @@
 			</div>
 			<div class="{highlightedData != null ? 'h-2/5 px-6 py-4 text-center overflow-scroll bg-white' : 'h-4/5 px-6 py-4 text-center overflow-scroll bg-white'}">
 				{#if prevData.length != 0}
+				<Tooltip title="제목을 누르면, 기존에 작성했던 일기를 다시 볼 수 있어요">
 				<table class="table">
 					<caption>표 제목</caption>
 					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
@@ -238,6 +242,7 @@
 					<tr class="text-sm cursor-pointer" on:click={() => highlightedData = prevData[idx]}><td>{new Date(data.timestamp.seconds * 1000).getMonth()+1}월 {new Date(data.timestamp.seconds * 1000).getDate()}일</td><td>{data.title}</td></tr>
 					{/each}
 				</table>  
+				</Tooltip>
 				{:else}
 				<div class="flex h-full items-center justify-center">
 					<p class="text-center text-sm text-gray-500 leading-6">아직 작성하신 일기가 없습니다.<br>오른쪽 화면에서 오늘의 일기를 작성해보세요!</p>
