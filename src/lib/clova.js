@@ -29,6 +29,6 @@ export function predictNextSentence(text, temp, items) {
             'temp': temp
         })})
     .then(response => response.json())
-    .then(response => items = (response.result.split('다음 문장: ').pop().split('###')[0].replace(/(\r\n|\n|\r)/gm, "")))
+    .then(response => items = response.result.split('다음 문장: ').pop().split('##')[0].includes('. ') ? (response.result.split('다음 문장: ').pop().split('##')[0].split('. ')[0]+'. '):(response.result.split('다음 문장: ').pop().split('##')[0]))
     .catch(err => console.log(err));
 }

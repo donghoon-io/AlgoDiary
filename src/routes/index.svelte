@@ -146,6 +146,7 @@
 		} else {
 			// save and populate here
 			predictNextSentence(diaryContent, tempMapped).then(result => {
+				console.log(result);
 				recommendedPhrase = [result];
 
 				addDoc(collection(db, "data", String($experimentID), "next_sentence_request"), {"original_content": diaryContent, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "temperature": tempMapped, "title": diaryTitle, "recommendation": recommendedPhrase}).then(docu => {
