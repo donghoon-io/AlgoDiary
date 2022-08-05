@@ -3,6 +3,7 @@
 	import { experimentID, nickname, temperature } from '$lib/store'
 	import Switch from '$lib/misc/toggle.svelte';
     import RangeSlider from "svelte-range-slider-pips";
+	import LoadingIndicator from '$lib/misc/LoadingIndicator.svelte'
 	import { onMount } from "svelte";
 	import { getNotificationsContext } from 'svelte-notifications';
 	import { mapRange } from 'fractils'
@@ -95,6 +96,21 @@
 	var currentKeywordID = "";
 	var currentNextID = "";
 
+	function addKeywordPhrase(text) {
+		if (text != "Error") {
+			recommendedKeywordPhrase.push(text);
+			recommendedKeywordPhrase = recommendedKeywordPhrase;
+		}
+	}
+	function addNextPhrase(text) {
+		if (text != "Error") {
+			recommendedPhrase.push(text);
+			recommendedPhrase = recommendedPhrase;
+		}
+	}
+
+	let loading = false;
+	
 	function keywordComplete(text) {
 		if (tags == "" || tags == null) {
 			addNotification({
@@ -105,23 +121,25 @@
 			})
 		} else {
 			// save and populate here
+			recommendedKeywordPhrase = [];
+			loading = true;
 			getFromKeywords(tags, tempMapped).then(result => {
-				recommendedKeywordPhrase = [result];
-
+				addKeywordPhrase(result);
 				addDoc(collection(db, "data", String($experimentID), "keyword_request"), {"original_content": diaryContent, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "title": diaryTitle, "tags": tags, "temperature": tempMapped, "recommendation": recommendedKeywordPhrase}).then(docu => {
 					currentKeywordID = docu.id;
 					setTimeout(() => {
 						getFromKeywords(tags, tempMapped).then(result1 => {
-							recommendedKeywordPhrase = [result, result1];
+							addKeywordPhrase(result1);
 							setTimeout(() => {
 								getFromKeywords(tags, tempMapped).then(result2 => {
-									recommendedKeywordPhrase = [result, result1, result2];
+									addKeywordPhrase(result2);
 									setTimeout(() => {
 										getFromKeywords(tags, tempMapped).then(result3 => {
-											recommendedKeywordPhrase = [result, result1, result2, result3];
+											addKeywordPhrase(result3);
 											setTimeout(() => {
 												getFromKeywords(tags, tempMapped).then(result4 => {
-													recommendedKeywordPhrase = [result, result1, result2, result3, result4];
+													addKeywordPhrase(result4);
+													loading = false;
 													updateDoc(doc(db, "data", String($experimentID), "keyword_request", docu.id), {
 														"recommendation": recommendedKeywordPhrase
 													})
@@ -148,24 +166,25 @@
 			})
 		} else {
 			// save and populate here
+			recommendedPhrase = [];
+			loading = true;
 			predictNextSentence(diaryContent, tempMapped).then(result => {
-				console.log(result);
-				recommendedPhrase = [result];
-
+				addNextPhrase(result);
 				addDoc(collection(db, "data", String($experimentID), "next_sentence_request"), {"original_content": diaryContent, "timestamp": Timestamp.fromDate(new Date()), "name": $nickname, "temperature": tempMapped, "title": diaryTitle, "recommendation": recommendedPhrase}).then(docu => {
 					currentNextID = docu.id;
 					setTimeout(() => {
 						predictNextSentence(diaryContent, tempMapped).then(result1 => {
-							recommendedPhrase = [result, result1];
+							addNextPhrase(result1);
 							setTimeout(() => {
 								predictNextSentence(diaryContent, tempMapped).then(result2 => {
-									recommendedPhrase = [result, result1, result2];
+									addNextPhrase(result2);
 									setTimeout(() => {
 										predictNextSentence(diaryContent, tempMapped).then(result3 => {
-											recommendedPhrase = [result, result1, result2, result3];
+											addNextPhrase(result3);
 											setTimeout(() => {
 												predictNextSentence(diaryContent, tempMapped).then(result4 => {
-													recommendedPhrase = [result, result1, result2, result3, result4];
+													addNextPhrase(result4);
+													loading = false;
 													updateDoc(doc(db, "data", String($experimentID), "next_sentence_request", docu.id), {
 														"recommendation": recommendedPhrase
 													})
@@ -332,7 +351,7 @@
 				</div>
 			</div>
 			
-			<div class="w-4/12 h-full divide-slate-200">
+			<div class="w-4/12 h-full divide-slate-200" style="position: relative !important;">
 				<div class="p-6 text-center flex justify-center items-center">	
 					<img src="./robot_1.png" class="h-8 mr-4">
 					<p class="text-md font-medium">이런 문장은 어때?</p>
@@ -376,6 +395,9 @@
 						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3" on:click={() => keywordComplete(tags)}>
 							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
+						{#if loading}
+						<LoadingIndicator/>
+						{/if}
 					</div>
 					<div class="text-left mt-6 overflow-scroll">
 						{#if recommendedKeywordPhrase.length != 0}
@@ -403,6 +425,9 @@
 						<button class="hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center" on:click={nextComplete}>
 							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음문장을 만들어줘</p>
 						</button>
+						{#if loading}
+						<LoadingIndicator/>
+						{/if}
 					</div>
 					<div class="text-left mt-6 pt-6">
 						{#if recommendedPhrase.length != 0}
