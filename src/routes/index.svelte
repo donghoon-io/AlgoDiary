@@ -292,7 +292,7 @@
 		</div>
 		<div class="w-5/12 divide-y divide-slate-200">
 				<div class="h-1/6 text-center flex justify-center items-center">
-					<div>
+					<div class="w-full px-3">
 						<textarea bind:value={diaryTitle} class="
 							form-control
 							w-full
@@ -304,7 +304,7 @@
 							py-2
 							transition
 							ease-in-out
-							text-2xl
+							text-xl
 						"
 						id="titleArea"
 						rows="1"
