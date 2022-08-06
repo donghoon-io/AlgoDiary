@@ -92,7 +92,7 @@
 			m-0
 			text-xs
 		"
-		id="exampleFormControlTextarea1"
+		id="exampleFormControlTextarea2"
 		rows="2"
 		placeholder="입력해주세요"
 		bind:value={secondText}

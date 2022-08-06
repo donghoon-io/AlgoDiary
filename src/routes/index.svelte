@@ -246,9 +246,12 @@
 				<div>
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
 					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
-					<button class="mt-3 hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
-						<p on:click={logout} class="text-sm">로그아웃</p>
-					</button>
+					<div class="flex items-center justify-center mt-3">
+						<p class="text-sm pr-4">참가자 ID: {$experimentID}</p>
+						<button class="hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
+							<p on:click={logout} class="text-sm">로그아웃</p>
+						</button>
+					</div>
 				</div>
 			</div>
 			<div class="{highlightedData != null ? 'h-2/5 px-6 py-4 text-center overflow-scroll bg-white' : 'h-4/5 px-6 py-4 text-center overflow-scroll bg-white'}">
@@ -387,7 +390,7 @@
 							m-0
 							text-xs
 						"
-						id="exampleFormControlTextarea1"
+						id="suggestionArea"
 						rows="1"
 						placeholder="키워드1, 키워드2, 키워드3, ..."
 						bind:value={tags}
