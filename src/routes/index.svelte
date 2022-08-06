@@ -547,4 +547,22 @@
 		left: 0;
 		background: rgba(0,0,0,0.50)
 	}
+	:global(.svelte-tabs__selected) {
+		color: #333 !important;
+		font-weight: 500 !important;
+		outline: none !important;
+		border-bottom: 2px solid #CCC !important;
+	}
+	:global(.svelte-tabs__selected:focus) {
+		outline: none !important;
+	}
+	:global(.svelte-tabs__tab) {
+		color: #666 !important;
+	}
+	:global(.svelte-tabs__tab:focus) {
+		outline: none !important;
+	}
+	:global(.svelte-tabs__tab-list) {
+		text-align: center !important;
+	}
   </style>
