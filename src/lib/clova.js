@@ -37,10 +37,10 @@ function isErroneous(texts) {
 }
 
 function concatTwo(texts) {
-    if (texts.split(". ").length > 2) {
+    if (texts.split(". ").length >= 2) {
         return texts.split(". ")[0]+". "+texts.split(". ")[1]+". ";
     }
     else {
-        return "응~";
+        return texts;
     }
 }
