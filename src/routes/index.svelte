@@ -373,7 +373,19 @@
 						<div class="text-center">
 						<div class="px-5 pb-5">
 							<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
+							{#if $temperature < 20}
+							<div class="flex space-x-1 pt-4 items-center justify-center">
+								<svg class="w-5 h-5 pt-0.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+								<p class="text-xs text-red-500 font-bold">슬라이더를 낮게 설정하면 너무 일반적인 문장이 나올 수 있어요!</p>
+							</div>
+							{:else if $temperature > 80}
+							<div class="flex space-x-1 pt-4 items-center justify-center">
+								<svg class="w-5 h-5 pt-0.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+								<p class="text-xs text-red-500 font-bold">슬라이더를 높게 설정하면 너무 독특한 문장이 나올 수 있어요!</p>
+							</div>
+							{/if}
 						</div>
+						
 						<div class="flex mt-6 mb-5">	
 							<p class="text-sm text-slate-600">인공지능이 참고할만한 키워드를 알려주세요</p>
 						</div>
@@ -423,6 +435,17 @@
 					<div class="text-center">
 					<div class="px-5 pb-5">
 						<RangeSlider bind:values={range} pips first='label' last='label' formatter={ v => "" } />
+							{#if $temperature < 20}
+							<div class="flex space-x-1 pt-4 items-center justify-center">
+								<svg class="w-5 h-5 pt-0.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+								<p class="text-xs text-red-500 font-bold">슬라이더를 낮게 설정하면 너무 일반적인 문장이 나올 수 있어요!</p>
+							</div>
+							{:else if $temperature > 80}
+							<div class="flex space-x-1 pt-4 items-center justify-center">
+								<svg class="w-5 h-5 pt-0.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+								<p class="text-xs text-red-500 font-bold">슬라이더를 높게 설정하면 너무 독특한 문장이 나올 수 있어요!</p>
+							</div>
+							{/if}
 					</div>
 					<div class="p-4 text-center">
 						<button class="hover:bg-gray-200 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center" on:click={nextComplete}>
