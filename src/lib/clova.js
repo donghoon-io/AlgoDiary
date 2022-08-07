@@ -5,7 +5,7 @@ export function getPosts(text, items) {
             'sentence': text
         })})
     .then(response => response.json())
-    .then(response => items = (response.result.split('공감: ').pop().split('###')[0].replace(/(\r\n|\n|\r)/gm, "")))
+    .then(response => items = response.result.split('공감: ').pop().split('###')[0].replace(/(\r\n|\n|\r)/gm, ""))
     .catch(err => console.log(err));
 }
 
@@ -17,7 +17,7 @@ export function getFromKeywords(text, temp, items) {
             'temp': temp
         })})
     .then(response => response.json())
-    .then(response => items = (response.result.split('일기: ').pop().split('###')[0].replace(/(\r\n|\n|\r)/gm, "")))
+    .then(response => items = isErroneous(response.danger) ? 'Error' : response.result.split('일기: ').pop().split('###')[0].replace(/(\r\n|\n|\r)/gm, ""))
     .catch(err => console.log(err));
 }
 
@@ -29,6 +29,9 @@ export function predictNextSentence(text, temp, items) {
             'temp': temp
         })})
     .then(response => response.json())
-    .then(response => items = response.result.split('다음 문장: ').pop().split('##')[0])
+    .then(response => items = isErroneous(response.danger) ? 'Error' : response.result.split('다음 문장: ').pop().split('##')[0])
     .catch(err => console.log(err));
+}
+function isErroneous(texts) {
+    return (texts.includes('1') || texts.includes('0'))
 }
