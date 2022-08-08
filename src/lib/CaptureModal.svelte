@@ -50,7 +50,7 @@
 		</div>
 	<div>
 		<p class="mt-2 mb-3 text-sm">캡쳐한 이유는 무엇인가요?</p>
-		<div class="flex mb-6 pb-2">
+		<div class="flex mb-6 pb-2 mt-4">
 			{#each reasons as reason}
 				<label class="text-xs flex-auto">
 					<input type=checkbox bind:group={selected} name="reasons" value={reason}>
