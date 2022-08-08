@@ -10,6 +10,7 @@
 	export let diaryContent
 	export let keywordPhrases
 	export let nextPhrases
+	export let tags
 
 	const { addNotification } = getNotificationsContext();
 	
@@ -31,7 +32,7 @@
 
 	function complete() {
 
-		addDoc(collection(db, "data", String($experimentID), "capture_event"), {"timestamp": Timestamp.fromDate(new Date()), "existing_title": diaryTitle, "existing_content": diaryContent, "reasons": selected, "next_recommendation": nextPhrases, "keyword_recommendation": keywordPhrases,"first_text": firstText, "second_text": secondText, "current_temperature": $temperature}).then(doc => {
+		addDoc(collection(db, "data", String($experimentID), "capture_event"), {"timestamp": Timestamp.fromDate(new Date()), "existing_title": diaryTitle, "existing_content": diaryContent, "reasons": selected, "next_recommendation": nextPhrases, "keyword_recommendation": keywordPhrases,"first_text": firstText, "second_text": secondText, "current_tags": tags, "current_temperature": $temperature}).then(doc => {
 			closeModal();
 
 			addNotification({
