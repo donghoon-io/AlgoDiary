@@ -2,10 +2,12 @@
 	import { experimentID, nickname } from '$lib/store'
 	import { onMount } from "svelte";
 	import { getNotificationsContext } from 'svelte-notifications';
+	import { id_pw } from '$lib/credential'
 
 	const { addNotification } = getNotificationsContext();
 
 	var tempID;
+	var pw = "";
 	var tempNickname = "";
 
 	function login() {
@@ -25,9 +27,27 @@
 				removeAfter: 3000,
 			})
 		}
+		if (pw == "") {
+			addNotification({
+				text: '패스워드를 입력해주세요',
+				type: 'danger',
+				position: 'top-center',
+				removeAfter: 3000,
+			})
+		}
 		if (tempNickname != "" && !isNaN(tempID)) {
-			$experimentID = tempID;
-			$nickname = tempNickname;
+			if (id_pw.hasOwnProperty(tempID) && id_pw[tempID] == pw){
+				$experimentID = tempID;
+				$nickname = tempNickname;
+			}
+			else {
+				addNotification({
+					text: '사용자 정보가 정확하지 않습니다',
+					type: 'danger',
+					position: 'top-center',
+					removeAfter: 3000,
+				})
+			}
 		}
 	}
 
@@ -68,10 +88,16 @@
 
 				<form class="w-full max-w-sm mt-6 px-6 pt-6">
 					<div class="flex items-center border-b border-gray-400 py-2">
-						<input bind:value={tempID} class="appearance-none bg-transparent border-none w-full text-md text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="참가자 ID 입력" aria-label="Experiment ID">
+						<input bind:value={tempID} class="appearance-none bg-transparent border-none w-full text-md text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="ID 입력" aria-label="Experiment ID">
 					</div>
 				</form>
-				<form class="w-full max-w-sm px-6 pt-4 pb-6">
+				<form class="w-full max-w-sm px-6">
+					<div class="flex items-center border-b border-gray-400 py-2">
+						<input bind:value={pw} class="appearance-none bg-transparent border-none w-full text-md text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="패스워드 입력" aria-label="
+						Password">
+					</div>
+				</form>
+				<form class="w-full max-w-sm px-6 mt-6 pt-6 pb-6">
 					<div class="flex items-center border-b border-gray-400 py-2">
 						<input bind:value={tempNickname} class="appearance-none bg-transparent border-none w-full text-md text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="다이어리에 사용할 닉네임 입력" aria-label="Nickname">
 					</div>
