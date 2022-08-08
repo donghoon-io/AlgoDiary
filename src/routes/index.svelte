@@ -44,6 +44,11 @@
 
 	$: tempMapped = mapRange($temperature, 0, 100, 0.0, 1.0)
 
+	function clickPrevDiary(idx) {
+		highlightedData = prevData[idx];
+		addDoc(collection(db, "data", String($experimentID), "prev_diary_click_event"), {"content": prevData[idx].content, "feedback": prevData[idx].feedback, "is_shared": prevData[idx].is_shared, "accessed_timestamp": Timestamp.fromDate(new Date()), "created_timestamp": prevData[idx].timestamp, "name": prevData[idx].name, "title": prevData[idx].title});
+	}
+
 	function diaryComplete() {
 		if (diaryTitle == "") {
 			addNotification({
@@ -223,6 +228,7 @@
 
 
 	onMount(async () => {
+		addDoc(collection(db, "data", String($experimentID), "access_event"), {"timestamp": Timestamp.fromDate(new Date())});
 	});
 </script>
 
@@ -261,7 +267,7 @@
 					<caption>표 제목</caption>
 					<tr class="text-sm" style="border-bottom: 2px solid #999;"><th>일기 쓴 날짜</th><th>제목</th></tr>
 					{#each prevData as data, idx}
-					<tr class="text-sm cursor-pointer" on:click={() => highlightedData = prevData[idx]}><td>{new Date(data.timestamp.seconds * 1000).getMonth()+1}월 {new Date(data.timestamp.seconds * 1000).getDate()}일</td><td>{data.title}</td></tr>
+					<tr class="text-sm cursor-pointer" on:click={() => clickPrevDiary(idx)}><td>{new Date(data.timestamp.seconds * 1000).getMonth()+1}월 {new Date(data.timestamp.seconds * 1000).getDate()}일</td><td>{data.title}</td></tr>
 					{/each}
 				</table>  
 				</Tooltip>
