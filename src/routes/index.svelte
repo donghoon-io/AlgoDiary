@@ -97,13 +97,13 @@
 	var currentNextID = "";
 
 	function addKeywordPhrase(text) {
-		if (text != "Error") {
+		if (text != "Error" && text != "E") {
 			recommendedKeywordPhrase.push(text);
 			recommendedKeywordPhrase = recommendedKeywordPhrase;
 		}
 	}
 	function addNextPhrase(text) {
-		if (text != "Error") {
+		if (text != "Error" && text != "E") {
 			recommendedPhrase.push(text);
 			recommendedPhrase = recommendedPhrase;
 		}
