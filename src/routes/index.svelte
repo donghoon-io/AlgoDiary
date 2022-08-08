@@ -254,7 +254,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="{highlightedData != null ? 'h-2/5 px-6 py-4 text-center overflow-scroll bg-white' : 'h-4/5 px-6 py-4 text-center overflow-scroll bg-white'}">
+			<div class="{highlightedData != null ? 'hidden px-6 py-4 text-center overflow-scroll bg-white' : 'h-4/5 px-6 py-4 text-center overflow-scroll bg-white'}">
 				{#if prevData.length != 0}
 				<Tooltip title="제목을 누르면, 기존에 작성했던 일기를 다시 볼 수 있어요">
 				<table class="table">
@@ -408,7 +408,7 @@
 						bind:value={tags}
 						></textarea>
 						<button class="bg-white mt-6 hover:bg-gray-100 text-gray-800 font-medium py-1.5 border border-gray-400 rounded shadow inline-flex items-center justify-center px-3" on:click={() => keywordComplete(tags)}>
-							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">다음문장을 만들어줘</p>
+							<img src="./next_line.png" class="w-6 p-1 mr-2"><p class="text-sm">문장을 만들어줘</p>
 						</button>
 						{#if loading}
 						<LoadingIndicator/>
@@ -420,7 +420,7 @@
 						<button class="tag text-left" on:click={() => addText(phrase, currentKeywordID, true)}>{phrase}</button>
 						{/each}
 						{:else}
-						<p class="text-center text-sm text-gray-500 leading-6 mt-6">“다음문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
+						<p class="text-center text-sm text-gray-500 leading-6 mt-6">“문장을 만들어줘” 버튼을 누르면<br>인공지능이 키워드를 참고하여<br>일기에 들어갈만한 문장을 제안해줘요!</p>
 						{/if}
 					</div>
 				</div>
@@ -499,11 +499,11 @@
 		font-size: .7rem !important;
 	}
 	:global(.pip.first > .pipVal:after) {
-  		content: '전형적이지만,\A높은 완성도' !important;
+  		content: '전형적인 문장' !important;
 		white-space: pre !important;
 	}
 	:global(.pip.last > .pipVal:after) {
-  		content: '완성도가 낮더라도,\A다양한 문장' !important;
+  		content: '다양한 문장' !important;
 		white-space: pre !important;
 	}
 
