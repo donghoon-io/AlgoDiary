@@ -64,7 +64,7 @@
 </script>
 
 <svelte:head>
-	<title>Login - AlgoDiary</title>
+	<title>Login - DiaryMate</title>
 </svelte:head>
 
 
@@ -84,7 +84,7 @@
 		<div class="flex items-center justify-center w-1/2 bg-zinc-100 text-center border border-gray-100 rounded drop-shadow-lg">
 			<div class="py-8 my-8">
 				<p class="text-sm pb-2">인공지능과 함께 나에대해 알아보기</p>
-				<p class="text-4xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
+				<p class="text-4xl font-medium" style="font-family: 'Gentium Book Plus' !important">DiaryMate</p>
 
 				<form class="w-full max-w-sm mt-6 px-6 pt-6">
 					<div class="flex items-center border-b border-gray-400 py-2">

@@ -251,7 +251,7 @@
 			<div class="h-1/5 text-center flex justify-center items-center bg-white">
 				<div>
 					<p class="text-sm pb-1">인공지능과 함께 나에대해 알아보기</p>
-					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">Algorithm diary</p>
+					<p class="text-3xl font-medium" style="font-family: 'Gentium Book Plus' !important">DiaryMate</p>
 					<div class="flex items-center justify-center mt-3">
 						<p class="text-sm pr-4">참가자 ID: {$experimentID}</p>
 						<button class="hover:bg-gray-100 text-gray-800 py-1 px-2 border border-gray-400 rounded shadow inline-flex items-center justify-center">
@@ -291,7 +291,7 @@
 				</div>
 				<p class="text-sm pt-2 pb-2">{highlightedData.content}</p>
 				<div class="pt-8 flex items-center">	
-					<img src="./robot_1.png" class="h-10 ml-2 mr-2">
+					<img src="./book.png" class="h-12">
 					<blockquote class="mx-8">
 					<p class="text-sm">{highlightedData.feedback}</p>
 					</blockquote>     
@@ -362,7 +362,7 @@
 			
 			<div class="w-4/12 h-full divide-slate-200" style="position: relative !important;">
 				<div class="p-6 text-center flex justify-center items-center">	
-					<img src="./robot_1.png" class="h-8 mr-4">
+					<img src="./pencil_cute.png" class="h-10 mr-1">
 					<p class="text-md font-medium">이런 문장은 어때?</p>
 				</div>
 			<Tabs>
