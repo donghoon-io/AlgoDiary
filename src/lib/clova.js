@@ -1,5 +1,5 @@
 export function getPosts(text, items) {
-    return fetch('https://algodiary-1.run.goorm.io/', {
+    return fetch('https://algodiary-111.run.goorm.io/', {
         method: 'POST',
         body: JSON.stringify({
             'sentence': text
@@ -10,7 +10,7 @@ export function getPosts(text, items) {
 }
 
 export function getFromKeywords(text, temp, items) {
-    return fetch('https://algodiary-2.run.goorm.io/', {
+    return fetch('https://algodiary-222.run.goorm.io/', {
         method: 'POST',
         body: JSON.stringify({
             'keywords': text,
@@ -22,7 +22,7 @@ export function getFromKeywords(text, temp, items) {
 }
 
 export function predictNextSentence(text, temp, items) {
-    return fetch('https://algodiary-3.run.goorm.io/', {
+    return fetch('https://algodiary-333.run.goorm.io/', {
         method: 'POST',
         body: JSON.stringify({
             'text': text,
